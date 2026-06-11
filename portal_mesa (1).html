@@ -1,0 +1,2268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prof. Ramón Javier Mesa Callejas | UNAL Medellín</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.min.js"></script>
+<style>
+:root{
+  --verde:#006F3B;
+  --verde-dark:#004A28;
+  --verde-light:#E8F5EE;
+  --verde-mid:#1A8A4A;
+  --dorado:#C9A84C;
+  --dorado-light:#F5E6C0;
+  --text:#1A2332;
+  --text-muted:#5A6577;
+  --bg:#FAFBF9;
+  --bg-card:#FFFFFF;
+  --border:#E2E8E0;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+  --radius:12px;
+  --radius-lg:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,74,40,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,.25)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-badge{width:32px;height:32px;background:var(--dorado);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--verde-dark)}
+.nav-logo-text{color:#fff;font-size:14px;font-weight:500;line-height:1.2}
+.nav-logo-text span{display:block;font-size:11px;color:rgba(255,255,255,.6);font-weight:300}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:6px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{background:rgba(201,168,76,.2);color:#fff}
+.nav-mobile-btn{display:none;background:none;border:none;cursor:pointer;color:#fff}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--verde-dark) 0%,var(--verde) 60%,#0D8A48 100%);padding:6rem 1.5rem 4rem;display:flex;align-items:center}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.4);color:var(--dorado-light);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;margin-bottom:1.5rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:#fff;line-height:1.2;margin-bottom:.5rem}
+.hero-title{color:var(--dorado);font-family:'Playfair Display',serif;font-size:clamp(1rem,2vw,1.3rem);margin-bottom:1.5rem;font-weight:400;font-style:italic}
+.hero-quote{border-left:3px solid var(--dorado);padding-left:1.25rem;margin-bottom:2rem;color:rgba(255,255,255,.85);font-size:1rem;font-style:italic;line-height:1.8}
+.hero-stats{display:flex;gap:2rem;margin-bottom:2rem}
+.hero-stat{text-align:center}
+.hero-stat-n{font-size:1.8rem;font-weight:700;color:var(--dorado);font-family:'Playfair Display',serif}
+.hero-stat-l{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+.btn-primary{background:var(--dorado);color:var(--verde-dark)}
+.btn-primary:hover{background:#d4b25a;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
+.hero-photo-area{display:flex;justify-content:center}
+.hero-photo-frame{position:relative;width:340px;height:400px}
+.hero-photo-bg{position:absolute;inset:20px 0 0 20px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius-lg)}
+.hero-photo{position:absolute;inset:0 20px 20px 0;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.6)}
+.hero-photo svg{opacity:.4}
+.hero-photo p{margin-top:12px;font-size:12px;opacity:.6}
+.hero-redes{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:var(--verde-dark);border:1px solid rgba(201,168,76,.3);border-radius:40px;padding:8px 16px}
+.red-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .2s;font-size:16px}
+.red-btn:hover{transform:scale(1.1)}
+.red-linkedin{background:#0077B5;color:#fff}
+.red-instagram{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff}
+.red-email{background:var(--dorado);color:var(--verde-dark)}
+.red-cvlac{background:rgba(255,255,255,.15);color:#fff;font-size:10px;font-weight:700}
+.red-researchgate{background:#00D2FF;color:#fff}
+
+/* SECTIONS GENERAL */
+section{padding:5rem 1.5rem}
+.sec-inner{max-width:1200px;margin:0 auto}
+.sec-label{font-size:11px;color:var(--verde);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:.75rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--text);margin-bottom:.75rem}
+.sec-sub{color:var(--text-muted);max-width:600px;margin-bottom:3rem}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.about-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}
+.about-card-icon{width:40px;height:40px;background:var(--verde-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:.75rem}
+.about-card h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.about-card p{font-size:13px;color:var(--text-muted);line-height:1.5}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:2px;background:linear-gradient(to bottom,var(--verde),transparent)}
+.tl-item{position:relative;margin-bottom:1.75rem}
+.tl-item::before{content:'';position:absolute;left:-1.5rem;top:8px;width:10px;height:10px;background:var(--verde);border-radius:50%;border:2px solid var(--bg)}
+.tl-year{font-size:11px;font-weight:600;color:var(--verde);text-transform:uppercase;letter-spacing:1px}
+.tl-title{font-size:15px;font-weight:600;color:var(--text);margin:.15rem 0}
+.tl-sub{font-size:13px;color:var(--text-muted)}
+
+/* PUBLICACIONES */
+.pub-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.filter-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:transparent;font-size:13px;cursor:pointer;transition:all .2s;color:var(--text-muted);font-family:'Inter',sans-serif}
+.filter-btn.active,.filter-btn:hover{border-color:var(--verde);background:var(--verde-light);color:var(--verde)}
+.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem}
+.pub-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.pub-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--verde)}
+.pub-card[data-tipo="columna"]::before{background:var(--dorado)}
+.pub-card[data-tipo="boletin"]::before{background:var(--verde-mid)}
+.pub-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,111,59,.12)}
+.pub-tipo{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.75rem}
+.tipo-articulo{background:var(--verde-light);color:var(--verde-dark)}
+.tipo-columna{background:var(--dorado-light);color:#8B6914}
+.tipo-boletin{background:#E6F3FF;color:#1A5494}
+.tipo-libro{background:#F0E6FF;color:#5C1A94}
+.pub-card h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:.5rem;line-height:1.4}
+.pub-card .pub-meta{font-size:12px;color:var(--text-muted);margin-bottom:.75rem}
+.pub-card a{color:var(--verde);font-size:13px;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.pub-card a:hover{text-decoration:underline}
+
+/* EVENTOS */
+.eventos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+.evento-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow)}
+.evento-fecha{font-size:11px;font-weight:600;color:var(--verde);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.5rem}
+.evento-card h3{font-size:15px;font-weight:600;margin-bottom:.4rem}
+.evento-card p{font-size:13px;color:var(--text-muted)}
+.evento-tag{display:inline-block;margin-top:.75rem;padding:4px 10px;background:var(--verde-light);color:var(--verde);font-size:11px;border-radius:10px;font-weight:500}
+
+/* CURSOS */
+.cursos-tabs{display:flex;gap:4px;background:var(--verde-light);border-radius:var(--radius);padding:4px;margin-bottom:3rem;max-width:600px}
+.curso-tab{flex:1;padding:10px;border-radius:8px;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--text-muted)}
+.curso-tab.active{background:var(--bg-card);color:var(--verde-dark);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.curso-content{display:none}
+.curso-content.active{display:block}
+
+/* SYLLABUS */
+.syllabus-header{background:var(--verde-dark);color:#fff;border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:2rem}
+.syllabus-header h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.5rem}
+.syllabus-header p{opacity:.8;font-size:14px}
+.syllabus-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.syl-meta-item{font-size:12px;opacity:.75;display:flex;align-items:center;gap:5px}
+.syllabus-objetivos{background:var(--verde-light);padding:1.5rem 2rem;border-left:4px solid var(--verde)}
+.syllabus-objetivos h3{font-size:14px;font-weight:600;color:var(--verde-dark);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.8px}
+.syllabus-objetivos p{font-size:14px;color:var(--text);line-height:1.7}
+.unidades{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-lg) var(--radius-lg);overflow:hidden}
+.unidad{border-bottom:1px solid var(--border)}
+.unidad:last-child{border-bottom:none}
+.unidad-header{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;cursor:pointer;background:var(--bg-card);transition:background .15s}
+.unidad-header:hover{background:#f5f9f6}
+.unidad-num{width:36px;height:36px;background:var(--verde);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.unidad-title{flex:1;font-weight:600;font-size:15px}
+.unidad-eval{font-size:11px;background:var(--dorado-light);color:#8B6914;padding:3px 8px;border-radius:10px;font-weight:600}
+.unidad-toggle{color:var(--text-muted);transition:transform .2s;font-size:18px}
+.unidad.open .unidad-toggle{transform:rotate(180deg)}
+.unidad-body{display:none;padding:0 1.5rem 1.5rem 4.5rem}
+.unidad.open .unidad-body{display:block}
+.temas-list{margin-bottom:1.25rem}
+.temas-list li{font-size:14px;color:var(--text-muted);padding:3px 0;padding-left:1rem;position:relative}
+.temas-list li::before{content:'·';position:absolute;left:0;color:var(--verde);font-weight:700}
+.modelo-card{background:linear-gradient(135deg,var(--verde-dark),var(--verde));border-radius:var(--radius);padding:1.25rem;color:#fff;margin-top:1rem}
+.modelo-card h4{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;opacity:.8;margin-bottom:.5rem}
+.modelo-card p{font-size:14px;line-height:1.7;font-family:'JetBrains Mono',monospace;opacity:.9}
+.biblio-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:.75rem}
+.biblio-tag{padding:4px 10px;background:rgba(255,255,255,.15);border-radius:10px;font-size:12px}
+
+/* CHARTS SECTION */
+.charts-section{background:var(--verde-dark)}
+.charts-section .sec-label{color:var(--dorado)}
+.charts-section .sec-title{color:#fff}
+.charts-section .sec-sub{color:rgba(255,255,255,.65)}
+.chart-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.chart-tab{padding:8px 18px;border-radius:20px;border:1.5px solid rgba(255,255,255,.2);background:transparent;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;color:rgba(255,255,255,.7);transition:all .2s}
+.chart-tab.active,.chart-tab:hover{background:var(--dorado);color:var(--verde-dark);border-color:var(--dorado);font-weight:600}
+.chart-panels{position:relative}
+.chart-panel{display:none}
+.chart-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:800px){.chart-panel.active{grid-template-columns:1fr}}
+.chart-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1.5rem}
+.chart-box h4{color:#fff;font-size:14px;font-weight:600;margin-bottom:.25rem}
+.chart-box p{color:rgba(255,255,255,.55);font-size:12px;margin-bottom:1rem}
+.chart-wrapper{position:relative;height:260px}
+.chart-controls{margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.chart-ctrl-label{font-size:12px;color:rgba(255,255,255,.6)}
+.chart-ctrl-val{font-size:12px;font-weight:600;color:var(--dorado);min-width:30px}
+input[type=range].dark-range{width:100px;accent-color:var(--dorado)}
+.mecanismo{grid-column:1/-1;background:rgba(0,0,0,.2);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius);padding:1.5rem}
+.mecanismo h4{color:var(--dorado);font-size:14px;font-weight:600;margin-bottom:.75rem}
+.mecanismo-steps{display:flex;gap:0;flex-wrap:wrap;align-items:center}
+.mec-step{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:6px 10px;font-size:13px;color:#fff;font-family:'JetBrains Mono',monospace}
+.mec-arrow{color:var(--dorado);padding:0 6px;font-size:18px}
+.comparison-table{grid-column:1/-1;overflow-x:auto}
+.comparison-table table{width:100%;border-collapse:collapse;font-size:13px}
+.comparison-table th{background:rgba(201,168,76,.15);color:var(--dorado);padding:10px 14px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+.comparison-table td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.8)}
+.comparison-table tr:hover td{background:rgba(255,255,255,.04)}
+
+/* DATOS MACRO */
+.datos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:3rem}
+.dato-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}
+.dato-label{font-size:12px;color:var(--text-muted);font-weight:500;margin-bottom:.25rem}
+.dato-valor{font-size:1.6rem;font-weight:700;color:var(--text);font-family:'Playfair Display',serif;line-height:1}
+.dato-var{font-size:12px;margin-top:.25rem;font-weight:600}
+.dato-var.pos{color:#1A8A4A}
+.dato-var.neg{color:#C0392B}
+.dato-fuente{font-size:10px;color:var(--text-muted);margin-top:.4rem}
+.entidades-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem}
+.entidad-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;text-align:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:all .2s}
+.entidad-card:hover{border-color:var(--verde);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,111,59,.12)}
+.entidad-icon{font-size:1.8rem;margin-bottom:.5rem}
+.entidad-name{font-size:13px;font-weight:600;color:var(--text)}
+.entidad-desc{font-size:11px;color:var(--text-muted);margin-top:2px}
+
+/* FOOTER */
+footer{background:var(--verde-dark);color:rgba(255,255,255,.8);padding:3rem 1.5rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem}
+.footer-brand h3{font-family:'Playfair Display',serif;color:#fff;font-size:1.2rem;margin-bottom:.5rem}
+.footer-brand p{font-size:13px;opacity:.7;line-height:1.6;max-width:280px}
+.footer-links h4{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--dorado);margin-bottom:1rem}
+.footer-links ul{list-style:none}
+.footer-links li{margin-bottom:.4rem}
+.footer-links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-links a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:2rem;padding-top:1.5rem;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;opacity:.6}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-stats{justify-content:center}
+  .hero-cta{justify-content:center}
+  .hero-photo-area{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .nav-mobile-btn{display:block}
+}
+@media(max-width:600px){
+  .about-cards{grid-template-columns:1fr}
+  .pub-grid{grid-template-columns:1fr}
+  .datos-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .6s ease forwards}
+.fade-up-2{animation:fadeUp .6s ease .1s both}
+.fade-up-3{animation:fadeUp .6s ease .2s both}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-badge">RJM</div>
+      <div class="nav-logo-text">
+        Ramón Javier Mesa C.
+        <span>UNAL Medellín · Macroeconomía</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#perfil">Perfil</a>
+      <a href="#publicaciones">Publicaciones</a>
+      <a href="#eventos">Eventos</a>
+      <a href="#cursos">Cursos</a>
+      <a href="#graficas">Gráficas</a>
+      <a href="#simulador">Simulador</a>
+      <a href="#ejercicios">Ejercicios</a>
+      <a href="#glosario">Glosario</a>
+      <a href="#datos">Datos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="perfil">
+  <div class="hero-inner">
+    <div class="fade-up">
+      <div class="hero-badge">📍 Universidad Nacional de Colombia · Sede Medellín</div>
+      <h1>Ramón Javier<br>Mesa Callejas</h1>
+      <p class="hero-title">Macroeconomista · Docente · Analista de Política Económica</p>
+      <blockquote class="hero-quote">
+        "La macroeconomía no es solo un conjunto de ecuaciones abstractas; es la herramienta para descifrar las decisiones que mueven a las naciones y transforman los entornos locales."
+      </blockquote>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-n">30+</div><div class="hero-stat-l">Años docencia</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">50+</div><div class="hero-stat-l">Publicaciones</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">Ex</div><div class="hero-stat-l">Decano FCHE</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">Ex</div><div class="hero-stat-l">Sec. Hacienda</div></div>
+      </div>
+      <div class="hero-cta">
+        <a href="#cursos" class="btn btn-primary">📚 Ver Cursos</a>
+        <a href="#publicaciones" class="btn btn-outline">📄 Publicaciones</a>
+      </div>
+    </div>
+    <div class="hero-photo-area fade-up-2">
+      <div class="hero-photo-frame">
+        <div class="hero-photo-bg"></div>
+        <div class="hero-photo" style="overflow:hidden;padding:0">
+          <img src="https://razonpublica.com/wp-content/uploads/2024/08/Ramon-mesa.jpeg" alt="Prof. Ramón Javier Mesa Callejas" style="width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:var(--radius-lg)">
+          <div class="hero-redes" style="position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:var(--verde-dark);border:1px solid rgba(201,168,76,.3);border-radius:40px;padding:8px 16px">
+            <a href="https://www.linkedin.com/" target="_blank" class="red-btn red-linkedin" title="LinkedIn">in</a>
+            <a href="https://www.instagram.com/" target="_blank" class="red-btn red-instagram" title="Instagram">📷</a>
+            <a href="mailto:rjmesac@unal.edu.co" class="red-btn red-email" title="Email">✉</a>
+            <a href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000055291" target="_blank" class="red-btn red-cvlac" title="CvLAC">CV</a>
+            <a href="https://www.researchgate.net/" target="_blank" class="red-btn red-researchgate" title="ResearchGate">RG</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section style="background:#fff;padding:5rem 1.5rem" id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+      <div>
+        <p class="sec-label">Trayectoria académica</p>
+        <h2 class="sec-title">Economista, docente e investigador</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem;font-size:15px">
+          Profesor titular del Departamento de Economía de la Facultad de Ciencias Humanas y Económicas (FCHE) de la Universidad Nacional de Colombia, Sede Medellín. Su trabajo combina la alta rigurosidad teórica con la aplicación en política pública, convirtiéndolo en referente del análisis macroeconómico colombiano.
+        </p>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">Cargo actual</div>
+            <div class="tl-title">Profesor Titular · UNAL Medellín</div>
+            <div class="tl-sub">Departamento de Economía, FCHE · Cursos: Macroeconomía I, II y III</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Cargo anterior</div>
+            <div class="tl-title">Decano · FCHE, UNAL Medellín</div>
+            <div class="tl-sub">Gestión académica y administrativa de la facultad</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Cargo anterior</div>
+            <div class="tl-title">Secretario de Hacienda · Gobernación de Antioquia</div>
+            <div class="tl-sub">Política fiscal y gestión del presupuesto departamental</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Investigación</div>
+            <div class="tl-title">Director del Perfil de Coyuntura Económica</div>
+            <div class="tl-sub">Publicación académica del Departamento de Economía · Universidad de Antioquia</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="about-cards">
+          <div class="about-card">
+            <div class="about-card-icon">📊</div>
+            <h4>Análisis de Coyuntura</h4>
+            <p>Traducción de datos macroeconómicos en escenarios de política fiscal y monetaria comprensibles.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🎯</div>
+            <h4>Pedagogía Gráfica</h4>
+            <p>Cadenas causales complejas mediante gráficos interactivos y estática comparativa.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🏛</div>
+            <h4>Política Pública</h4>
+            <p>Experiencia técnica en hacienda pública y diseño de estrategias de desarrollo regional.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🔬</div>
+            <h4>Investigación Aplicada</h4>
+            <p>Publicaciones en mercado laboral, política fiscal y ciclos económicos colombianos.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🌐</div>
+            <h4>Tipo de Cambio</h4>
+            <p>Referente nacional en intervenciones cambiarias y regímenes de política monetaria.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">📈</div>
+            <h4>Ciclos Económicos</h4>
+            <p>Modelos de crecimiento y fluctuaciones macroeconómicas en economías emergentes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PUBLICACIONES -->
+<section id="publicaciones">
+  <div class="sec-inner">
+    <p class="sec-label">Producción académica</p>
+    <h2 class="sec-title">Publicaciones y Escritos</h2>
+    <p class="sec-sub">Artículos, boletines de coyuntura, columnas de opinión y capítulos de libro sobre macroeconomía colombiana.</p>
+    <div class="pub-filters">
+      <button class="filter-btn active" onclick="filtrarPubs('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filtrarPubs('articulo',this)">Artículos Científicos</button>
+      <button class="filter-btn" onclick="filtrarPubs('boletin',this)">Boletines de Coyuntura</button>
+      <button class="filter-btn" onclick="filtrarPubs('columna',this)">Columnas</button>
+    </div>
+    <div class="pub-grid" id="pub-grid">
+
+      <div class="pub-card" data-tipo="articulo">
+        <span class="pub-tipo tipo-articulo">Artículo Científico</span>
+        <h3>Evaluando las intervenciones cambiarias en Colombia 2004–2012</h3>
+        <p class="pub-meta">Mesa R., Lopera M., Londoño Ch. · <em>Estudios Gerenciales</em>, Vol. 30, No. 130 · Universidad Icesi, 2014</p>
+        <a href="https://www.sciencedirect.com/science/article/pii/S0123592314000503" target="_blank">Leer artículo →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="articulo">
+        <span class="pub-tipo tipo-articulo">Artículo Científico</span>
+        <h3>Modelando el esquema de intervenciones del tipo de cambio para Colombia. Una aplicación con cuantil y redes neuronales</h3>
+        <p class="pub-meta">Mesa R., Lopera M., Restrepo S., Londoño Ch. · <em>Cuadernos de Economía</em>, Vol. 32, No. 59 · UNAL, 2013</p>
+        <a href="http://www.scielo.org.co/scielo.php?script=sci_abstract&pid=S0121-47722013000100013" target="_blank">Leer artículo →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="articulo">
+        <span class="pub-tipo tipo-articulo">Artículo Científico</span>
+        <h3>Teoría y realidad de los esquemas de inflación objetivo: aproximaciones al caso colombiano</h3>
+        <p class="pub-meta">Mesa R., Rhenals R., Londoño C. · <em>Ensayos de Economía</em>, No. 20-21 · UNAL Medellín, 2002</p>
+        <a href="#" target="_blank">Ver publicación →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="articulo">
+        <span class="pub-tipo tipo-articulo">Artículo Científico</span>
+        <h3>La experiencia colombiana bajo flotación controlada: el papel de las intervenciones cambiarias</h3>
+        <p class="pub-meta">Mesa R., Hernández M. · <em>Lecturas de Economía</em>, No. 65 · Univ. de Antioquia, 2006</p>
+        <a href="http://www.scielo.org.co/pdf/le/n65/n65a2.pdf" target="_blank">Leer artículo →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="articulo">
+        <span class="pub-tipo tipo-articulo">Artículo Científico</span>
+        <h3>Análisis y perspectivas de la reforma monetaria en Venezuela (el bolívar fuerte): efectos en Colombia</h3>
+        <p class="pub-meta">Mesa R., Gómez M. · <em>Semestre Económico</em>, No. 21, Vol. 11 · Univ. de Medellín, 2008</p>
+        <a href="http://www.scielo.org.co/scielo.php?script=sci_arttext&pid=S0120-63462008000100002" target="_blank">Leer artículo →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="articulo">
+        <span class="pub-tipo tipo-articulo">Artículo Científico</span>
+        <h3>El índice de condiciones monetarias en Colombia y el perfil de la política monetaria reciente</h3>
+        <p class="pub-meta">Mesa R., Gómez W., González J. · <em>Perfil de Coyuntura Económica</em> · Univ. de Antioquia, 2007</p>
+        <a href="#" target="_blank">Ver publicación →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="boletin">
+        <span class="pub-tipo tipo-boletin">Boletín de Coyuntura</span>
+        <h3>La emisión monetaria: una alternativa al financiamiento al COVID-19 en Colombia</h3>
+        <p class="pub-meta">Mesa R., Torres J. · <em>Perfil de Coyuntura Económica</em>, No. 30 · Abril 2020</p>
+        <a href="https://es.scribd.com/document/459815103/Perfil-de-Coyuntura-Econo-mica-30" target="_blank">Leer boletín →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="boletin">
+        <span class="pub-tipo tipo-boletin">Boletín de Coyuntura</span>
+        <h3>Efectividad de la política monetaria en Colombia: de la contención a la incertidumbre</h3>
+        <p class="pub-meta">Mesa R. · <em>UN Periódico Digital</em> · UNAL, Agosto 2021</p>
+        <a href="https://unperiodico.unal.edu.co/pages/detail/efectividad-de-la-politica-monetaria-en-colombia-de-la-contencion-a-la-incertidumbre/" target="_blank">Leer →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="columna">
+        <span class="pub-tipo tipo-columna">Columna de Opinión</span>
+        <h3>Tasas de interés y crecimiento: más allá de la política monetaria</h3>
+        <p class="pub-meta">Mesa R. · <em>La Silla Vacía</em> · Diciembre 15, 2023</p>
+        <a href="https://www.lasillavacia.com/red-de-expertos/red-social/tasas-de-interes-y-crecimiento-mas-alla-de-la-politica-monetaria/" target="_blank">Leer columna →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="columna">
+        <span class="pub-tipo tipo-columna">Columna de Opinión</span>
+        <h3>Intervenir el dólar para frenar la inflación, el debate</h3>
+        <p class="pub-meta">Mesa R. · <em>La Silla Vacía</em> · Diciembre 19, 2022</p>
+        <a href="https://www.lasillavacia.com/historias/historias-silla-llena/intervenir-el-dolar-para-frenar-la-inflacion-el-debate/" target="_blank">Leer columna →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="columna">
+        <span class="pub-tipo tipo-columna">Columna de Opinión</span>
+        <h3>La encrucijada de la política monetaria en Colombia: detener la inflación</h3>
+        <p class="pub-meta">Mesa R. · <em>La Silla Vacía</em> · Octubre 13, 2022</p>
+        <a href="https://www.lasillavacia.com/historias/historias-silla-llena/la-encrucijada-de-la-politica-monetaria-en-colombia-detener-la-inflacion/" target="_blank">Leer columna →</a>
+      </div>
+
+      <div class="pub-card" data-tipo="columna">
+        <span class="pub-tipo tipo-columna">Columna de Opinión</span>
+        <h3>Dólar en Colombia: los dilemas de la especulación</h3>
+        <p class="pub-meta">Mesa R. · <em>La Silla Vacía</em> · Agosto 11, 2022</p>
+        <a href="https://www.lasillavacia.com/historias/historias-silla-llena/dolar-en-colombia-el-dilema-de-la-especulacion/" target="_blank">Leer columna →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EVENTOS -->
+<section id="eventos" style="background:#fff">
+  <div class="sec-inner">
+    <p class="sec-label">Presencia académica</p>
+    <h2 class="sec-title">Seminarios y Eventos</h2>
+    <p class="sec-sub">Participación en foros, conferencias y espacios de análisis económico nacionales e internacionales.</p>
+    <div class="eventos-grid">
+      <div class="evento-card">
+        <div class="evento-fecha">2024 · Seminario</div>
+        <h3>Política Monetaria y Estabilización en Economías Emergentes</h3>
+        <p>Banco de la República · Medellín. Análisis de los efectos de la tasa REPO sobre inflación y crecimiento.</p>
+        <span class="evento-tag">Política monetaria</span>
+      </div>
+      <div class="evento-card">
+        <div class="evento-fecha">2023 · Foro</div>
+        <h3>Regímenes Cambiarios y Volatilidad del Peso Colombiano</h3>
+        <p>Asociación Colombiana de Economistas · Bogotá. Debate sobre flotación dirigida e intervenciones esterilizadas.</p>
+        <span class="evento-tag">Tipo de cambio</span>
+      </div>
+      <div class="evento-card">
+        <div class="evento-fecha">2022 · Conferencia</div>
+        <h3>Inflación Post-Pandemia: Causas y Respuestas de Política</h3>
+        <p>FCHE · UNAL Medellín. Análisis de la espiral inflacionaria 2021–2022 y respuesta del BanRep.</p>
+        <span class="evento-tag">Inflación</span>
+      </div>
+      <div class="evento-card">
+        <div class="evento-fecha">2021 · Panel</div>
+        <h3>Financiamiento del Déficit Fiscal y Emisión Monetaria en tiempos de COVID-19</h3>
+        <p>UN Periódico Digital · UNAL. Debate sobre los límites y riesgos de la emisión como fuente de financiamiento.</p>
+        <span class="evento-tag">Política fiscal</span>
+      </div>
+      <div class="evento-card">
+        <div class="evento-fecha">2019 · Conferencia</div>
+        <h3>Devaluación del Peso: Beneficios Marginales vs Problemas Permanentes</h3>
+        <p>Alma Máter · Universidad de Antioquia. Efectos asimétricos de la depreciación cambiaria en Colombia.</p>
+        <span class="evento-tag">Macroeconomía abierta</span>
+      </div>
+      <div class="evento-card">
+        <div class="evento-fecha">Recurrente · Curso</div>
+        <h3>Coyuntura Económica Colombiana y Latinoamericana</h3>
+        <p>Conferencias magistrales periódicas en la FCHE sobre indicadores macroeconómicos y perspectivas.</p>
+        <span class="evento-tag">Coyuntura</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CURSOS -->
+<section id="cursos">
+  <div class="sec-inner">
+    <p class="sec-label">Oferta académica</p>
+    <h2 class="sec-title">Programas de Cursos</h2>
+    <p class="sec-sub">Estructura completa de los cursos de Macroeconomía I, II y III dictados en la FCHE · UNAL Medellín.</p>
+
+    <div class="cursos-tabs">
+      <button class="curso-tab active" onclick="mostrarCurso('macro1',this)">Macroeconomía I</button>
+      <button class="curso-tab" onclick="mostrarCurso('macro2',this)">Macroeconomía II</button>
+      <button class="curso-tab" onclick="mostrarCurso('macro3',this)">Macroeconomía III</button>
+    </div>
+
+    <!-- MACRO I -->
+    <div class="curso-content active" id="macro1">
+      <div class="syllabus-header">
+        <h2>Macroeconomía I</h2>
+        <p>Departamento de Economía · Facultad de Ciencias Humanas y Económicas</p>
+        <div class="syllabus-meta">
+          <span class="syl-meta-item">🏛 Universidad Nacional de Colombia, Sede Medellín</span>
+          <span class="syl-meta-item">📅 Semestral</span>
+          <span class="syl-meta-item">👨‍🏫 Prof. Ramón Javier Mesa Callejas</span>
+        </div>
+      </div>
+      <div class="syllabus-objetivos">
+        <h3>Objetivo General</h3>
+        <p>Proporcionar al estudiante los fundamentos del análisis macroeconómico moderno: las identidades contables del ingreso nacional, los modelos de determinación del ingreso en el corto plazo (Keynesiano simple y modelo IS-LM en economía cerrada), y los principios del dinero, la política monetaria y fiscal. El estudiante comprenderá el funcionamiento del mercado de bienes, el mercado financiero y su interacción para determinar producción y tasa de interés de equilibrio.</p>
+      </div>
+      <div class="unidades">
+        <!-- U1 -->
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">1</div>
+            <div class="unidad-title">Introducción a la Macroeconomía y Contabilidad Nacional</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>¿Qué estudia la macroeconomía? Variables macroeconómicas clave: PIB, desempleo, inflación, tipo de cambio.</li>
+              <li>El Producto Interno Bruto (PIB): definición, método del gasto, ingreso y producción.</li>
+              <li>PIB real vs nominal. Deflactor del PIB e Índice de Precios al Consumidor (IPC).</li>
+              <li>Identidades macroeconómicas: Y = C + I + G + (X - M). Ahorro nacional, privado y público.</li>
+              <li>La tasa de desempleo: definición y cálculo. Ley de Okun (introducción).</li>
+              <li>Cuentas nacionales de Colombia: estructura y fuentes (DANE, BanRep).</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Identidad Fundamental</h4>
+              <p>Y ≡ C + I + G + NX &nbsp;|&nbsp; S_nacional = I + NX &nbsp;|&nbsp; S_priv + S_pub = I + NX<br>
+              PIB_real(t) = Σ p_{i,0} · q_{i,t} &nbsp;→&nbsp; deflactor = (PIB_nominal/PIB_real) × 100</p>
+            </div>
+          </div>
+        </div>
+        <!-- U2 -->
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">2</div>
+            <div class="unidad-title">Modelo Keynesiano Básico: El Mercado de Bienes</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>La demanda agregada y sus componentes. Consumo: función de consumo keynesiana C = c₀ + c₁(Y-T).</li>
+              <li>La inversión autónoma. El gasto de gobierno y los impuestos como variables de política.</li>
+              <li>Equilibrio en el mercado de bienes: Y = DA. La intersección keynesiana.</li>
+              <li>El multiplicador fiscal: ΔY = (1/1-c₁)·ΔG. El multiplicador de impuestos y del presupuesto equilibrado (Teorema de Haavelmo).</li>
+              <li>Análisis de estática comparativa: efectos de la política fiscal expansiva y contractiva.</li>
+              <li>Las exportaciones netas en el modelo simple. El multiplicador en economía abierta.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Mecanismo de Transmisión · Política Fiscal Expansiva</h4>
+              <p>↑G → ↑DA → Y* = (1/(1-c₁))·ΔG → ↑Ingreso disponible → ↑C → efectos multiplicadores sucesivos</p>
+              <div class="biblio-tags"><span class="biblio-tag">Blanchard cap. 3</span><span class="biblio-tag">Mankiw cap. 3</span><span class="biblio-tag">De Gregorio cap. 4</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- U3 -->
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">3</div>
+            <div class="unidad-title">El Mercado Financiero y el Dinero</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>El dinero: funciones y definiciones. Activos financieros: bonos vs dinero.</li>
+              <li>Demanda de dinero: motivos (transacción, precaución, especulación). Md = L(Y, i).</li>
+              <li>Oferta de dinero y el banco central. La base monetaria y el multiplicador del dinero.</li>
+              <li>Equilibrio en el mercado financiero: Ms = Md. Determinación de la tasa de interés.</li>
+              <li>La curva LM: derivación gráfica y matemática. Desplazamientos de la LM.</li>
+              <li>Política monetaria: operaciones de mercado abierto y su efecto sobre la tasa de interés.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Mecanismo · Política Monetaria Expansiva</h4>
+              <p>↑Ms → ↓i → ↑I(i) → ↑DA → ↑Y &nbsp;|&nbsp; Curva LM: M/P = L(Y, i) → i = L⁻¹(M/P, Y)</p>
+            </div>
+          </div>
+        </div>
+        <!-- U4 -->
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">4</div>
+            <div class="unidad-title">El Modelo IS-LM en Economía Cerrada</div>
+            <span class="unidad-eval">Parcial 2 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>La curva IS: derivación gráfica y analítica. Pendiente e interpretación. Y = C(Y-T) + I(i) + G.</li>
+              <li>La curva LM: derivación. Pendiente e interpretación. M/P = L(Y, i).</li>
+              <li>Equilibrio simultáneo en mercado de bienes y financiero: intersección IS-LM.</li>
+              <li>Estática comparativa en IS-LM: política fiscal (desplaza IS), política monetaria (desplaza LM).</li>
+              <li>El efecto crowding out: mecanismo completo.</li>
+              <li>La trampa de la liquidez y casos extremos (IS/LM verticales y horizontales).</li>
+              <li>Mix de políticas: coordinación entre política fiscal y monetaria.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Crowding Out · Mecanismo Completo</h4>
+              <p>↑G → IS se desplaza ↗ → en IS-LM: ↑Y y ↑i → ↑i desplaza ↓I privada → efecto neto sobre Y menor al multiplicador simple</p>
+            </div>
+          </div>
+        </div>
+        <!-- U5 -->
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">5</div>
+            <div class="unidad-title">Inflación, Desempleo y la Curva de Phillips (Introducción)</div>
+            <span class="unidad-eval">Parcial 2 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Conceptos básicos de inflación: IPC, IPP, deflactor. La inflación subyacente.</li>
+              <li>Costos sociales de la inflación. El señoreaje y el impuesto inflacionario.</li>
+              <li>Tasa natural de desempleo. Desempleo friccional, estructural y cíclico.</li>
+              <li>La curva de Phillips original: relación empírica inflación-desempleo.</li>
+              <li>Teoría cuantitativa del dinero: MV = PY. La inflación como fenómeno monetario.</li>
+              <li>Introducción a las expectativas inflacionarias y su rol en la política económica.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Teoría Cuantitativa</h4>
+              <p>MV = PY → ΔM + ΔV = π + ΔY → si V constante: π ≈ ΔM - ΔY (inflación = exceso de emisión sobre crecimiento)</p>
+            </div>
+          </div>
+        </div>
+        <!-- U6 -->
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">6</div>
+            <div class="unidad-title">El Largo Plazo: Crecimiento y el Modelo de Solow (Introducción)</div>
+            <span class="unidad-eval">Examen Final · 30%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>¿Por qué crecen las economías? Los factores de producción: capital, trabajo, tecnología.</li>
+              <li>La función de producción agregada: Y = F(K, L). Rendimientos de escala y productividad marginal.</li>
+              <li>El modelo de Solow: acumulación de capital. K/N: capital por trabajador. La ecuación fundamental.</li>
+              <li>El estado estacionario (steady state): condición Δk = 0. Gráfica ahorro vs depreciación.</li>
+              <li>Efectos de cambios en la tasa de ahorro y la depreciación. La Regla de Oro del Capital.</li>
+              <li>Progreso tecnológico en Solow: trabajo eficiente. Convergencia condicional.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Ecuación Fundamental de Solow</h4>
+              <p>Δk = s·f(k) - (δ+n)·k &nbsp;|&nbsp; Estado estacionario: s·f(k*) = (δ+n)·k*<br>
+              ↑s → ↑k* → crecimiento transitorio de Y/N (no permanente sin tecnología)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MACRO II -->
+    <div class="curso-content" id="macro2">
+      <div class="syllabus-header">
+        <h2>Macroeconomía II</h2>
+        <p>Departamento de Economía · FCHE · Universidad Nacional de Colombia, Sede Medellín</p>
+        <div class="syllabus-meta">
+          <span class="syl-meta-item">👨‍🏫 Profs. Ramón J. Mesa Callejas · Juan Camilo Galvis</span>
+          <span class="syl-meta-item">📅 Semestre 2025-2</span>
+        </div>
+      </div>
+      <div class="syllabus-objetivos">
+        <h3>Objetivo General</h3>
+        <p>El curso profundiza en los modelos macroeconómicos de oferta y demanda agregada con expectativas, examina la crítica a la teoría keynesiana de los años 60 y los modelos microfundamentados del consumo, inversión y ciclo económico. Finaliza introduciendo el análisis de la economía abierta con el modelo IS-LM-BP y Mundell-Fleming.</p>
+      </div>
+      <div class="unidades">
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">1</div>
+            <div class="unidad-title">Modelo IS (EMB) – LM (EMA): Derivación y Políticas</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>IS (Equilibrio Mercado de Bienes): derivación gráfica y matemática. Pendiente e interpretación.</li>
+              <li>LM (Equilibrio Mercado de Activos): derivación formal. Efectos del nivel de precios sobre LM.</li>
+              <li>Equilibrio simultáneo en IS-LM: solución analítica del sistema de ecuaciones.</li>
+              <li>Impacto de la política fiscal: multiplicadores con efecto crowding out. Gráfica de desplazamiento IS.</li>
+              <li>Impacto de la política monetaria: mecanismo de transmisión completo. Gráfica de desplazamiento LM.</li>
+              <li>Casos especiales: trampa de liquidez (LM horizontal), caso clásico (LM vertical). Efectividad de políticas.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Mecanismo de Transmisión Monetario Completo</h4>
+              <p>↑Mˢ → ↓i → ↑I(i) → IS no se mueve, LM se desplaza ↗ → ↑Y, ↓i → nuevo equilibrio IS-LM<br>
+              Efectividad: mayor cuando IS es inclinada (I muy sensible a i) y LM plana</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">2</div>
+            <div class="unidad-title">Oferta y Demanda Agregada (OA-DA)</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>La demanda agregada (DA): derivación desde IS-LM. Pendiente negativa: ↑P → ↓M/P → LM sube → ↓Y.</li>
+              <li>La oferta agregada (OA): casos extremos. OA keynesiana horizontal: desempleo y salarios rígidos.</li>
+              <li>OA clásica vertical: pleno empleo, flexibilidad de precios. La dicotomía clásica.</li>
+              <li>El modelo de Islas de Lucas: información asimétrica y OA de pendiente positiva.</li>
+              <li>Modelos alternativos de OA: salarios de eficiencia, costos de menú (Mankiw-Romer), precios pasados.</li>
+              <li>Equilibrio DA-OA y estática comparativa. Efectos de shocks de demanda y oferta.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Derivación DA desde IS-LM</h4>
+              <p>↑P → ↓(M/P) → LM se desplaza ↑ → ↑i → ↓I → ↓Y &nbsp;→ DA tiene pendiente negativa en plano (P, Y)<br>
+              OA intermedia (Lucas): P = Pᵉ + α(Y - Yn) &nbsp;|&nbsp; sorpresa de precios → desempleo por debajo de natural</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">3</div>
+            <div class="unidad-title">Política Económica y Expectativas</div>
+            <span class="unidad-eval">Parcial 2 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>La Ley de Okun: relación entre variación del desempleo y crecimiento del PIB. Estimaciones para Colombia.</li>
+              <li>La Curva de Phillips (versión aumentada): π = πᵉ - ε(u - un). Inflación, expectativas y desempleo.</li>
+              <li>Expectativas adaptativas: formación lenta. La inercia inflacionaria. Stagflation.</li>
+              <li>Expectativas racionales: Muth (1961). Inefectividad de la política sistemática (Lucas, Sargent-Wallace).</li>
+              <li>Desinflación: recesión y sacrificio. La curva de sacrificio. Casos Colombia: 1998-1999.</li>
+              <li>Modelo de inflación-producto (IS-LM dinámico): análisis de perturbaciones de demanda y oferta con expectativas.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Curva de Phillips Aumentada con Expectativas</h4>
+              <p>π = πᵉ - ε·(u - un) + shocks de oferta<br>
+              Adaptativas: πᵉ(t) = π(t-1) → inercia | Racionales: πᵉ = E[π | info t-1] → la política anticipada es ineficaz</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">4</div>
+            <div class="unidad-title">Microfundamentación: Consumo, Inversión y Ciclo Real</div>
+            <span class="unidad-eval">Parcial 2 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Consumo keynesiano: C = c₀ + c₁Yd. Limitaciones: ilusión fiscal, efecto riqueza.</li>
+              <li>Hipótesis del ciclo de vida (Modigliani): alisamiento del consumo a lo largo de la vida.</li>
+              <li>Hipótesis del ingreso permanente (Friedman): consumo ≈ f(ingreso permanente), no del transitorio.</li>
+              <li>La crítica de Lucas: los parámetros de los modelos keynesianos cambian con la política. Modelos intertemporales.</li>
+              <li>La inversión en Keynes: eficiencia marginal del capital. La q de Tobin: q = V_mercado / K_reposición.</li>
+              <li>El modelo del Ciclo Real de Negocios (Kydland-Prescott, 1982): shocks tecnológicos reales como fuente de fluctuaciones.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 q de Tobin y Decisión de Inversión</h4>
+              <p>q = Valor bursátil empresa / Costo reposición capital<br>
+              q &gt; 1 → invertir (rentable instalar capital nuevo) | q &lt; 1 → no invertir (comprar empresa más barato)<br>
+              ↑i → ↓valor bursátil → ↓q → ↓I (canal de la q en política monetaria)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">5</div>
+            <div class="unidad-title">Introducción a la Economía Abierta</div>
+            <span class="unidad-eval">Examen Final · 30%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Balanza de pagos: cuenta corriente (CC), cuenta de capital y financiera (CKF). Identidades BP.</li>
+              <li>La Inversión Extranjera Directa (IED): determinantes y efectos macroeconómicos.</li>
+              <li>El tipo de cambio nominal: definición, cotización directa e indirecta. Mercado de divisas: oferta y demanda de dólares.</li>
+              <li>La paridad de intereses descubierta (UIP): i = i* + ΔTCᵉ. Arbitraje en mercados financieros.</li>
+              <li>La paridad del poder de compra (PPP): en forma absoluta y relativa. π - π* = ΔTC. Evidencia empírica.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Paridad de Intereses (UIP)</h4>
+              <p>i_col = i_usa + (TCᵉ - TC)/TC &nbsp;→ diferencial de tasas = depreciación esperada<br>
+              ↑i_col (>i*) → entrada de capitales → ↑demanda COP → apreciación del peso → corrección hasta equilibrio</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">6</div>
+            <div class="unidad-title">Economía Abierta: Modelos IS-LM-BP y Mundell-Fleming</div>
+            <span class="unidad-eval">Examen Final · 30%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Curva BP: combinaciones (Y, i) que equilibran la balanza de pagos. Pendiente según movilidad de capitales.</li>
+              <li>IS-LM-BP: equilibrio simultáneo en tres mercados. Posición del equilibrio frente a BP.</li>
+              <li>Tipo de cambio fijo (TCF): política fiscal efectiva, monetaria esterilizada. Mecanismo de ajuste de reservas.</li>
+              <li>Tipo de cambio flexible (TCF → TCR): Modelo Mundell-Fleming. Política fiscal ineficaz; monetaria eficaz.</li>
+              <li>Modelo de Krugman: crisis cambiarias y ataques especulativos sobre el tipo de cambio fijo.</li>
+              <li>Aproximación matemática al modelo IS-LM-BP. Multiplicadores de política con movilidad de capitales.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Mundell-Fleming: Política Fiscal bajo TCF</h4>
+              <p>↑G → ↑Y, ↑i → BP: i &gt; i* → entrada capitales → ↑TC (apreciación) → ↓Xn → IS regresa al origen<br>
+              Resultado: ↑G completamente anulada por apreciación cambiaria. Y no cambia (crowding out externo)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MACRO III -->
+    <div class="curso-content" id="macro3">
+      <div class="syllabus-header">
+        <h2>Macroeconomía III</h2>
+        <p>Departamento de Economía · FCHE · Universidad Nacional de Colombia, Sede Medellín</p>
+        <div class="syllabus-meta">
+          <span class="syl-meta-item">👨‍🏫 Prof. Ramón Javier Mesa Callejas</span>
+          <span class="syl-meta-item">📅 Semestre 2026-1</span>
+        </div>
+      </div>
+      <div class="syllabus-objetivos">
+        <h3>Objetivo General</h3>
+        <p>Suministrar al estudiante el instrumental teórico para comprender la dinámica de los mercados de bienes y activos en una economía abierta. Abarca regímenes cambiarios, política monetaria avanzada, determinantes del tipo de cambio real, y los principales problemas de la macroeconomía internacional contemporánea.</p>
+      </div>
+      <div class="unidades">
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">1</div>
+            <div class="unidad-title">Enfoque Monetario de la Macroeconomía Internacional</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Teorías de las paridades internacionales: UIP, CIP, PPP, Fisher internacional. Evidencia empírica.</li>
+              <li>Mercados de divisas: estructura (spot, forward, swaps). Sistemas cambiarios mundiales: FMI (2025) y su taxonomía.</li>
+              <li>Modelo de Krugman para la determinación de la renta y el tipo de cambio: oferta y demanda de dinero internacional.</li>
+              <li>Modelo Mundell-Fleming completo: TC fijo y flexible con distintos grados de movilidad de capitales.</li>
+              <li>Flujos de capital: determinantes, volatilidad y efectos sobre el tipo de cambio y la política monetaria.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Paridades Internacionales: Síntesis</h4>
+              <p>PPP: e = P_dom / P_ext → π_dom - π_ext = Δe (PPP relativa)<br>
+              UIP: i = i* + ΔTCᵉ | CIP: i = i* + forward premium<br>
+              Fisher: i = r + πᵉ → diferencial nominal = diferencial de inflación esperada</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">2</div>
+            <div class="unidad-title">OA-DA en Economía Abierta y Overshooting</div>
+            <span class="unidad-eval">Parcial 1 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Derivación de la DA en economía abierta: canal del tipo de cambio real (TCR). DA más plana que en economía cerrada.</li>
+              <li>OA clásica y keynesiana en contexto abierto. Rigideces nominales y reales.</li>
+              <li>Choques reales (términos de intercambio, productividad) y financieros (flujos de capital): efectos sobre DA, OA.</li>
+              <li>Política de ajuste con TCF: carga sobre variables reales (salarios, empleo). Deflación interna.</li>
+              <li>Política de ajuste con TCF: ajuste mediante depreciación. El fenómeno del overshooting (Dornbusch, 1976).</li>
+              <li>Overshooting: en el largo plazo el TC converge a PPP, pero en el corto supera el nivel de equilibrio.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Overshooting de Dornbusch</h4>
+              <p>↑Ms (expansión monetaria) → ↓i → TC se deprecia inmediatamente MÁS de lo necesario (overshooting)<br>
+              En el largo plazo: ↑P → TC real vuelve al equilibrio | Intuición: precios lentos, tipo de cambio veloz</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">3</div>
+            <div class="unidad-title">Regímenes Cambiarios y Política Monetaria</div>
+            <span class="unidad-eval">Parcial 2 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Taxonomía de regímenes cambiarios: fijo duro (caja de convertibilidad), fijo ajustable, bandas, flotación sucia, flotación libre.</li>
+              <li>Procesos de creación del dinero: balance del banco central. Emisión por compra de divisas vs por crédito doméstico.</li>
+              <li>Esterilización monetaria: mecanismo y límites. Intervenciones del BanRep en el mercado cambiario colombiano.</li>
+              <li>Análisis de la intervención esterilizada: ¿neutraliza los efectos monetarios de la compra de divisas?</li>
+              <li>Modelo de síntesis (i; P): clásico y keynesiano con rigideces, con intervención esterilizada y no esterilizada.</li>
+              <li>Dilema de la trinidad imposible (Mundell): libre movimiento de capitales + TC fijo + política monetaria autónoma. Solo 2 de 3.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Trinidad Imposible de Mundell</h4>
+              <p>No puede tenerse simultáneamente: [1] TC fijo + [2] Movilidad perfecta de K + [3] Autonomía monetaria<br>
+              Colombia (flotación sucia + movilidad alta): sacrifica [1] para conservar [3] con intervenciones esterilizadas</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">4</div>
+            <div class="unidad-title">Determinantes del Tipo de Cambio Real</div>
+            <span class="unidad-eval">Parcial 2 · 35%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Modelo de Krugman con TC flexible y precios fijos: papel de expectativas en determinación del TC.</li>
+              <li>Modelo de síntesis (i; TCR): clásico y keynesiano con TC flexible. Equilibrio en mercado de bienes y activos.</li>
+              <li>Choques reales y financieros en el modelo (i, TCR): términos de intercambio, productividad, flujos de capital.</li>
+              <li>Modelo de bienes transables (T) y no transables (N): TCR = P_T/P_N. La enfermedad holandesa.</li>
+              <li>TCR y competitividad: evidencia para Colombia. Efecto Balassa-Samuelson.</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Modelo T-N y Enfermedad Holandesa</h4>
+              <p>TCR = P_T / P_N &nbsp;|&nbsp; Boom de commodities → ↑ingresos → ↑demanda de N → ↑P_N → ↓TCR (apreciación real)<br>
+              → ↓competitividad del sector T → desindustrialización: la "enfermedad holandesa" (Dutch Disease)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">5</div>
+            <div class="unidad-title">Enfoque Real de la Macroeconomía Internacional</div>
+            <span class="unidad-eval">Examen Final · 30%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Ahorro, inversión y cuenta corriente: identidad CA = S - I. Determinantes del ahorro nacional.</li>
+              <li>Dimensión intertemporal de la cuenta corriente: modelo de 2 períodos. Alisamiento y suavización.</li>
+              <li>Política fiscal, ahorro e inversión: el déficit gemelo (twin deficits). Evidencia colombiana.</li>
+              <li>Política monetaria, financiamiento del déficit fiscal y régimen cambiario. Conflictos de objetivos.</li>
+              <li>Teoría de Harrod-Balassa-Samuelson: por qué los países ricos tienen precios más altos (sector T más productivo).</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Déficit Gemelo (Twin Deficits)</h4>
+              <p>CA = S_priv + S_pub - I &nbsp;|&nbsp; ↑Gasto público → ↓S_pub → ↓CA (déficit en CC)<br>
+              Y = C + I + G + NX → NX = Y - C - I - G = (Y-C-T) + (T-G) - I = S_priv + S_pub - I</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unidad" onclick="toggleUnidad(this)">
+          <div class="unidad-header">
+            <div class="unidad-num">6</div>
+            <div class="unidad-title">Tópicos de Política Monetaria y Cambiaria</div>
+            <span class="unidad-eval">Examen Final · 30%</span>
+            <span class="unidad-toggle">⌄</span>
+          </div>
+          <div class="unidad-body">
+            <ul class="temas-list">
+              <li>Grado de eficiencia de la política monetaria: canales de transmisión (tasa de interés, crédito, activos, tipo de cambio, expectativas).</li>
+              <li>Debate reglas vs. discrecionalidad: Kydland-Prescott (1977). Inconsistencia dinámica. Credibilidad del banco central.</li>
+              <li>Esquemas de inflación objetivo (Inflation Targeting): metas, transparencia, autonomía del banco central. BanRep Colombia.</li>
+              <li>Macroeconomía del tipo de cambio en Colombia: historial de regímenes (crawling peg, banda, flotación libre 1999). Intervenciones 2004–2019. Echavarría (2023).</li>
+              <li>Tasas de interés y crecimiento: efectividad de la política monetaria en Colombia. Mesa (2023). ¿Más allá de la inflación?</li>
+            </ul>
+            <div class="modelo-card">
+              <h4>📐 Inconsistencia Dinámica (Kydland-Prescott)</h4>
+              <p>El BC tiene incentivo a sorprender con inflación para ↑empleo → agentes lo anticipan → equilibrio con inflación alta sin ganancia de empleo<br>
+              Solución: reglas creíbles (metas de inflación) + independencia del banco central + reputación</p>
+              <div class="biblio-tags"><span class="biblio-tag">Mesa (2023) La Silla Vacía</span><span class="biblio-tag">Echavarría (2023) BanRep</span><span class="biblio-tag">Taboada & Villamizar (2024)</span><span class="biblio-tag">FMI (2025) AREAER</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRÁFICAS MACROECONÓMICAS -->
+<section class="charts-section" id="graficas">
+  <div class="sec-inner">
+    <p class="sec-label">Análisis Gráfico</p>
+    <h2 class="sec-title">Modelos Macroeconómicos Interactivos</h2>
+    <p class="sec-sub">Gráficas interactivas de los principales modelos. Modifica los parámetros y observa los mecanismos de transmisión en tiempo real.</p>
+
+    <div class="chart-tabs">
+      <button class="chart-tab active" onclick="mostrarChart('islm',this)">IS-LM</button>
+      <button class="chart-tab" onclick="mostrarChart('daofa',this)">DA-OA</button>
+      <button class="chart-tab" onclick="mostrarChart('phillips',this)">Phillips</button>
+      <button class="chart-tab" onclick="mostrarChart('solow',this)">Solow</button>
+      <button class="chart-tab" onclick="mostrarChart('mf',this)">Mundell-Fleming</button>
+      <button class="chart-tab" onclick="mostrarChart('comparacion',this)">Comparación Políticas</button>
+    </div>
+
+    <div class="chart-panels">
+
+      <!-- IS-LM -->
+      <div class="chart-panel active" id="panel-islm">
+        <div class="chart-box">
+          <h4>Modelo IS-LM · Economía Cerrada</h4>
+          <p>Equilibrio simultáneo en mercado de bienes (IS) y mercado financiero (LM)</p>
+          <div class="chart-wrapper"><canvas id="chartISLM"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">↑G (fiscal)</span>
+            <input type="range" class="dark-range" id="slG" min="0" max="50" value="0">
+            <span class="chart-ctrl-val" id="valG">+0</span>
+            <span class="chart-ctrl-label">↑Ms (monetaria)</span>
+            <input type="range" class="dark-range" id="slMs" min="0" max="50" value="0">
+            <span class="chart-ctrl-val" id="valMs">+0</span>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h4>Sensibilidad al tipo de interés</h4>
+          <p>Comparación: IS empinada vs plana. Efectividad diferencial de la política monetaria.</p>
+          <div class="chart-wrapper"><canvas id="chartISLMcomp"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Sensibilidad I(i)</span>
+            <input type="range" class="dark-range" id="slSens" min="1" max="5" value="3">
+            <span class="chart-ctrl-val" id="valSens">3</span>
+          </div>
+        </div>
+        <div class="mecanismo">
+          <h4>🔄 Mecanismo de Transmisión Activo</h4>
+          <div class="mecanismo-steps" id="mec-islm">
+            <span class="mec-step">Selecciona una política arriba</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DA-OA -->
+      <div class="chart-panel" id="panel-daofa">
+        <div class="chart-box">
+          <h4>Modelo DA-OA · Equilibrio de Precios y Producto</h4>
+          <p>Curvas de Demanda Agregada (DA) y Oferta Agregada (OA) con distintas formas</p>
+          <div class="chart-wrapper"><canvas id="chartDAOA"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Shock DA</span>
+            <input type="range" class="dark-range" id="slDA" min="-30" max="30" value="0">
+            <span class="chart-ctrl-val" id="valDA">0</span>
+            <span class="chart-ctrl-label">Tipo OA</span>
+            <select id="selOA" style="background:#1a2332;color:#fff;border:1px solid rgba(255,255,255,.2);padding:4px 8px;border-radius:6px;font-size:12px">
+              <option value="intermedia">Intermedia</option>
+              <option value="keynesiana">Keynesiana</option>
+              <option value="clasica">Clásica</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h4>Ajuste Dinámico: Corto vs Largo Plazo</h4>
+          <p>Transición del corto al largo plazo tras un shock de demanda positivo.</p>
+          <div class="chart-wrapper"><canvas id="chartDAOAdyn"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Fase</span>
+            <input type="range" class="dark-range" id="slFase" min="0" max="2" step="1" value="0">
+            <span class="chart-ctrl-val" id="valFase">Inicial</span>
+          </div>
+        </div>
+        <div class="mecanismo">
+          <h4>🔄 Ciclo de Ajuste DA-OA</h4>
+          <div class="mecanismo-steps">
+            <span class="mec-step">↑DA (choque de demanda)</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑P y ↑Y (CP)</span><span class="mec-arrow">→</span>
+            <span class="mec-step">Mercado laboral: ↑W</span><span class="mec-arrow">→</span>
+            <span class="mec-step">OA se desplaza ↑</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑P, Y vuelve a Yn (LP)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHILLIPS -->
+      <div class="chart-panel" id="panel-phillips">
+        <div class="chart-box">
+          <h4>Curva de Phillips · Versión Aumentada con Expectativas</h4>
+          <p>π = πᵉ − ε·(u − uⁿ) | Relación inflación-desempleo con distintas expectativas</p>
+          <div class="chart-wrapper"><canvas id="chartPhillips"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Inflación esperada (πᵉ)</span>
+            <input type="range" class="dark-range" id="slPie" min="0" max="15" value="5">
+            <span class="chart-ctrl-val" id="valPie">5%</span>
+            <span class="chart-ctrl-label">Tasa natural (uⁿ)</span>
+            <input type="range" class="dark-range" id="slUn" min="5" max="15" value="10">
+            <span class="chart-ctrl-val" id="valUn">10%</span>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h4>Stagflation y el Desplazamiento de la Curva</h4>
+          <p>Comparación histórica: curvas de Phillips en diferentes contextos de expectativas</p>
+          <div class="chart-wrapper"><canvas id="chartPhillipsComp"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Escenario</span>
+            <select id="selPhillips" style="background:#1a2332;color:#fff;border:1px solid rgba(255,255,255,.2);padding:4px 8px;border-radius:6px;font-size:12px">
+              <option value="original">Original (1960s)</option>
+              <option value="stagflation">Stagflation (1970s)</option>
+              <option value="moderno">Moderno (anclaje πᵉ)</option>
+            </select>
+          </div>
+        </div>
+        <div class="mecanismo">
+          <h4>🔄 Mecanismo Desinflación Colombiana (referencia 1998-2002)</h4>
+          <div class="mecanismo-steps">
+            <span class="mec-step">BanRep ↑i_repo</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑costo crédito</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↓C e ↓I</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑desempleo</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↓W → ↓costos</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↓π (costo: recesión)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOLOW -->
+      <div class="chart-panel" id="panel-solow">
+        <div class="chart-box">
+          <h4>Modelo de Solow · Estado Estacionario</h4>
+          <p>s·f(k) vs (δ+n)·k | El estado estacionario k* donde la inversión = depreciación</p>
+          <div class="chart-wrapper"><canvas id="chartSolow"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Tasa de ahorro (s)</span>
+            <input type="range" class="dark-range" id="slS" min="0.05" max="0.5" step="0.01" value="0.2">
+            <span class="chart-ctrl-val" id="valS">20%</span>
+            <span class="chart-ctrl-label">Depreciación (δ)</span>
+            <input type="range" class="dark-range" id="slDelta" min="0.03" max="0.15" step="0.01" value="0.08">
+            <span class="chart-ctrl-val" id="valDelta">8%</span>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h4>Trayectoria de Crecimiento · Comparación de Tasas de Ahorro</h4>
+          <p>Convergencia al estado estacionario con s=15%, s=25% y s=35%</p>
+          <div class="chart-wrapper"><canvas id="chartSolowComp"></canvas></div>
+        </div>
+        <div class="mecanismo">
+          <h4>🔄 Mecanismo Solow: Efecto de ↑s</h4>
+          <div class="mecanismo-steps">
+            <span class="mec-step">↑s (tasa ahorro)</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑s·f(k) > (δ+n)k</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑k (acumulación de capital)</span><span class="mec-arrow">→</span>
+            <span class="mec-step">↑Y/N (transitorio)</span><span class="mec-arrow">→</span>
+            <span class="mec-step">Nuevo k* mayor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNDELL-FLEMING -->
+      <div class="chart-panel" id="panel-mf">
+        <div class="chart-box">
+          <h4>Mundell-Fleming: IS-LM-BP (TC Fijo)</h4>
+          <p>Política fiscal efectiva; política monetaria esterilizada. Movilidad perfecta de capitales (BP horizontal)</p>
+          <div class="chart-wrapper"><canvas id="chartMFFixed"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Shock fiscal (ΔG)</span>
+            <input type="range" class="dark-range" id="slMFG" min="0" max="40" value="0">
+            <span class="chart-ctrl-val" id="valMFG">+0</span>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h4>Mundell-Fleming: IS-LM-BP (TC Flexible)</h4>
+          <p>Política monetaria efectiva; política fiscal neutralizada por apreciación cambiaria</p>
+          <div class="chart-wrapper"><canvas id="chartMFFloat"></canvas></div>
+          <div class="chart-controls">
+            <span class="chart-ctrl-label">Shock monetario (ΔMs)</span>
+            <input type="range" class="dark-range" id="slMFMs" min="0" max="40" value="0">
+            <span class="chart-ctrl-val" id="valMFMs">+0</span>
+          </div>
+        </div>
+        <div class="comparison-table">
+          <table>
+            <thead><tr><th>Política</th><th>TC Fijo (alta movilidad K)</th><th>TC Flexible (alta movilidad K)</th><th>TC Fijo (baja movilidad K)</th></tr></thead>
+            <tbody>
+              <tr><td>Política Fiscal ↑G</td><td style="color:#4ade80">Muy efectiva ✓</td><td style="color:#f87171">Ineficaz ✗ (crowding out externo)</td><td style="color:#facc15">Parcialmente efectiva</td></tr>
+              <tr><td>Política Monetaria ↑Ms</td><td style="color:#f87171">Ineficaz ✗ (esterilización)</td><td style="color:#4ade80">Muy efectiva ✓</td><td style="color:#4ade80">Efectiva</td></tr>
+              <tr><td>Devaluación</td><td>N/A (fijo)</td><td style="color:#4ade80">↑NX → ↑Y temporalmente</td><td style="color:#4ade80">Efectiva a corto plazo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COMPARACIÓN -->
+      <div class="chart-panel" id="panel-comparacion">
+        <div class="comparison-table" style="grid-column:1/-1">
+          <h4 style="color:#fff;margin-bottom:1rem">Síntesis Comparativa: Modelos y Supuestos Clave</h4>
+          <table>
+            <thead><tr><th>Modelo</th><th>Nivel de precios</th><th>Horizonte</th><th>Supuesto clave</th><th>Política más efectiva</th></tr></thead>
+            <tbody>
+              <tr><td>IS-LM (cerrada)</td><td>Fijo (keynesiano)</td><td>Corto plazo</td><td>Precios rígidos, economía cerrada</td><td>Fiscal y monetaria</td></tr>
+              <tr><td>DA-OA keynesiana</td><td>Variable / rígido</td><td>CP-MP</td><td>OA horizontal: desempleo involuntario</td><td>Fiscal (con política monetaria acomodaticia)</td></tr>
+              <tr><td>DA-OA clásica</td><td>Completamente flexible</td><td>Largo plazo</td><td>Pleno empleo, neutralidad monetaria</td><td>Ninguna (dictómica clásica)</td></tr>
+              <tr><td>Mundell-Fleming (TC fijo)</td><td>Fijo</td><td>Corto plazo</td><td>Movilidad perfecta de K, TC fijo</td><td>Fiscal (muy)</td></tr>
+              <tr><td>Mundell-Fleming (TC flexible)</td><td>Fijo</td><td>Corto plazo</td><td>Movilidad perfecta de K, TC libre</td><td>Monetaria (muy)</td></tr>
+              <tr><td>Modelo de Solow</td><td>N/A (real)</td><td>Largo plazo</td><td>Rendimientos decrecientes del K, tecnología exógena</td><td>Reformas estructurales (s, tecnología)</td></tr>
+              <tr><td>Phillips aumentada</td><td>Variable</td><td>Mediano plazo</td><td>Expectativas inflacionarias; tasa natural de desempleo</td><td>Credibilidad del BC</td></tr>
+              <tr><td>Mundell-Fleming c/overshooting</td><td>Lento ajuste</td><td>CP con dinámica</td><td>Precios lentos, TC inmediato</td><td>Monetaria (TC sobrerreacciona)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="chart-box" style="grid-column:1/-1">
+          <h4>Línea del Tiempo: Evolución del Pensamiento Macroeconómico</h4>
+          <p>Del keynesianismo al neoclasicismo y los modelos modernos de síntesis</p>
+          <div class="chart-wrapper" style="height:200px"><canvas id="chartTimeline"></canvas></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DATOS MACRO -->
+<section id="datos" style="background:#fff">
+  <div class="sec-inner">
+    <p class="sec-label">Indicadores de Coyuntura</p>
+    <h2 class="sec-title">Datos Macroeconómicos · Colombia & Mundo</h2>
+    <p class="sec-sub">Indicadores clave del entorno macroeconómico. Datos de referencia para el análisis de coyuntura.</p>
+
+    <div class="datos-grid">
+      <div class="dato-card">
+        <div class="dato-label">PIB Colombia (crecimiento anual)</div>
+        <div class="dato-valor">1.7%</div>
+        <div class="dato-var pos">▲ 2024 est.</div>
+        <div class="dato-fuente">Fuente: DANE / FMI</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Inflación IPC Colombia</div>
+        <div class="dato-valor">5.1%</div>
+        <div class="dato-var neg">▼ vs 13.1% (2022)</div>
+        <div class="dato-fuente">Fuente: DANE, 2024</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Tasa REPO BanRep</div>
+        <div class="dato-valor">9.75%</div>
+        <div class="dato-var neg">▼ desde 13.25% (2023)</div>
+        <div class="dato-fuente">Fuente: Banco de la República</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Tasa de Desempleo Colombia</div>
+        <div class="dato-valor">10.1%</div>
+        <div class="dato-var pos">▼ vs 12.2% (2022)</div>
+        <div class="dato-fuente">Fuente: DANE, 2024</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Tipo de Cambio USD/COP</div>
+        <div class="dato-valor">~4,150</div>
+        <div class="dato-var pos">▼ vs 4,810 (máx 2023)</div>
+        <div class="dato-fuente">Fuente: BanRep / WITS</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Crecimiento Global (FMI)</div>
+        <div class="dato-valor">3.2%</div>
+        <div class="dato-var pos">▲ proyección 2025</div>
+        <div class="dato-fuente">Fuente: FMI WEO, 2024</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Inflación EE.UU. (FED)</div>
+        <div class="dato-valor">2.7%</div>
+        <div class="dato-var pos">▼ cercano al target 2%</div>
+        <div class="dato-fuente">Fuente: Bureau of Labor Statistics</div>
+      </div>
+      <div class="dato-card">
+        <div class="dato-label">Fed Funds Rate (EE.UU.)</div>
+        <div class="dato-valor">5.25%</div>
+        <div class="dato-var neg">▼ ciclo de recortes</div>
+        <div class="dato-fuente">Fuente: Federal Reserve</div>
+      </div>
+    </div>
+
+    <p class="sec-label" style="margin-bottom:1.25rem">Entidades Internacionales de Referencia</p>
+    <div class="entidades-grid">
+      <a href="https://www.imf.org" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🌐</div>
+        <div class="entidad-name">FMI</div>
+        <div class="entidad-desc">Fondo Monetario Internacional</div>
+      </a>
+      <a href="https://www.worldbank.org" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🏦</div>
+        <div class="entidad-name">Banco Mundial</div>
+        <div class="entidad-desc">World Bank</div>
+      </a>
+      <a href="https://www.banrep.gov.co" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🇨🇴</div>
+        <div class="entidad-name">BanRep</div>
+        <div class="entidad-desc">Banco de la República</div>
+      </a>
+      <a href="https://www.dane.gov.co" target="_blank" class="entidad-card">
+        <div class="entidad-icon">📊</div>
+        <div class="entidad-name">DANE</div>
+        <div class="entidad-desc">Estadísticas Colombia</div>
+      </a>
+      <a href="https://www.cepal.org" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🌎</div>
+        <div class="entidad-name">CEPAL</div>
+        <div class="entidad-desc">Comisión Econ. para A.L.</div>
+      </a>
+      <a href="https://www.federalreserve.gov" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🏛</div>
+        <div class="entidad-name">Federal Reserve</div>
+        <div class="entidad-desc">Banco central EE.UU.</div>
+      </a>
+      <a href="https://www.ecb.europa.eu" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🇪🇺</div>
+        <div class="entidad-name">BCE</div>
+        <div class="entidad-desc">Banco Central Europeo</div>
+      </a>
+      <a href="https://www.oecd.org" target="_blank" class="entidad-card">
+        <div class="entidad-icon">📈</div>
+        <div class="entidad-name">OCDE</div>
+        <div class="entidad-desc">Países desarrollados</div>
+      </a>
+      <a href="https://bid.int" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🌐</div>
+        <div class="entidad-name">BID</div>
+        <div class="entidad-desc">Banco Interamericano</div>
+      </a>
+      <a href="https://repositorio.banrep.gov.co" target="_blank" class="entidad-card">
+        <div class="entidad-icon">📚</div>
+        <div class="entidad-name">Repositorio BanRep</div>
+        <div class="entidad-desc">Investigaciones Colombia</div>
+      </a>
+      <a href="https://www.lasillavacia.com" target="_blank" class="entidad-card">
+        <div class="entidad-icon">📰</div>
+        <div class="entidad-name">La Silla Vacía</div>
+        <div class="entidad-desc">Análisis político-económico</div>
+      </a>
+      <a href="https://ideas.repec.org" target="_blank" class="entidad-card">
+        <div class="entidad-icon">🔬</div>
+        <div class="entidad-name">IDEAS RePEC</div>
+        <div class="entidad-desc">Base datos económica global</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR BANREP -->
+<section id="simulador" style="background:var(--verde-dark);padding:5rem 1.5rem">
+  <div class="sec-inner">
+    <p class="sec-label" style="color:var(--dorado)">Herramienta pedagógica</p>
+    <h2 class="sec-title" style="color:#fff">Simulador de Política Monetaria · BanRep</h2>
+    <p class="sec-sub" style="color:rgba(255,255,255,.65)">Modifica la tasa REPO del Banco de la República y observa cómo se propagan los efectos sobre las principales variables macroeconómicas de Colombia. Incluye shocks exógenos.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:2rem;margin-bottom:2rem">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);padding:1.75rem">
+        <h4 style="color:var(--dorado);font-size:14px;font-weight:600;margin-bottom:1.25rem;text-transform:uppercase;letter-spacing:.8px">⚙ Parámetros de Política</h4>
+
+        <div style="margin-bottom:1.5rem">
+          <label style="font-size:13px;color:rgba(255,255,255,.7);display:flex;justify-content:space-between;margin-bottom:.5rem">
+            <span>Tasa REPO BanRep</span>
+            <span id="sim-repo-val" style="color:var(--dorado);font-weight:600">9.75%</span>
+          </label>
+          <input type="range" class="dark-range" style="width:100%" id="sim-repo" min="4" max="15" step="0.25" value="9.75" oninput="buildBanRepSim()">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.4);margin-top:3px"><span>4%</span><span>Base: 9.75%</span><span>15%</span></div>
+        </div>
+
+        <div style="margin-bottom:1.5rem">
+          <label style="font-size:13px;color:rgba(255,255,255,.7);display:block;margin-bottom:.5rem">Shock exógeno</label>
+          <select id="sim-shock" onchange="buildBanRepSim()" style="width:100%;background:rgba(0,0,0,.3);color:#fff;border:1px solid rgba(255,255,255,.2);padding:8px 12px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif">
+            <option value="ninguno">Sin shock externo</option>
+            <option value="petroleo">↑ Precio del petróleo (+40%)</option>
+            <option value="devaluacion">↑ Devaluación inesperada del COP</option>
+            <option value="recesion_global">↓ Recesión global (-1.2pp PIB mundial)</option>
+            <option value="entrada_capital">↑ Entrada masiva de capitales</option>
+          </select>
+        </div>
+
+        <div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:1rem;font-size:12px;color:rgba(255,255,255,.7);line-height:1.6">
+          <strong style="color:var(--dorado)">Canal de transmisión activo:</strong><br>
+          Tasa REPO → tasas de captación/colocación → costo del crédito → consumo e inversión → demanda agregada → inflación y PIB
+        </div>
+      </div>
+
+      <div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem">
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem">
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:.25rem">Inflación proyectada</div>
+            <div id="sim-infl" style="font-size:1.3rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif">5.5%</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem">
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:.25rem">Crecimiento PIB</div>
+            <div id="sim-gdp" style="font-size:1.3rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif">1.7%</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem">
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:.25rem">Desempleo</div>
+            <div id="sim-unemp" style="font-size:1.3rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif">10.2%</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem">
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:.25rem">USD/COP proyectado</div>
+            <div id="sim-tcr" style="font-size:1.1rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif">$4,150</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem">
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:.25rem">Consumo privado</div>
+            <div id="sim-cons" style="font-size:1.1rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif">3.2%</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem">
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:.25rem">Inversión</div>
+            <div id="sim-inv" style="font-size:1.1rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif">1.8%</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1.25rem">
+          <h5 style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:.75rem">Trayectoria proyectada de inflación (12 meses)</h5>
+          <div style="height:160px"><canvas id="simChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canales de transmisión monetaria -->
+    <div style="background:rgba(0,0,0,.2);border:1px solid rgba(201,168,76,.2);border-radius:var(--radius-lg);padding:1.75rem">
+      <h4 style="color:var(--dorado);font-size:14px;font-weight:600;margin-bottom:1.25rem">📡 Los 5 Canales de Transmisión de la Política Monetaria en Colombia</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem">
+        <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:1rem;border-left:3px solid var(--verde)">
+          <div style="font-size:12px;font-weight:600;color:var(--dorado);margin-bottom:.4rem">1. Canal de Tasa de Interés</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.7)">↑i_repo → ↑i bancaria → ↓C e ↓I → ↓DA → ↓π</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:1rem;border-left:3px solid #3B8BD4">
+          <div style="font-size:12px;font-weight:600;color:var(--dorado);margin-bottom:.4rem">2. Canal del Crédito</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.7)">↑i → ↑selección adversa → ↓oferta crédito → ↓inversión (esp. PyMEs)</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:1rem;border-left:3px solid #EF9F27">
+          <div style="font-size:12px;font-weight:600;color:var(--dorado);margin-bottom:.4rem">3. Canal de Activos (q de Tobin)</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.7)">↑i → ↓precios acciones → ↓q → ↓inversión empresarial</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:1rem;border-left:3px solid #E24B4A">
+          <div style="font-size:12px;font-weight:600;color:var(--dorado);margin-bottom:.4rem">4. Canal Cambiario</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.7)">↑i_col > i* → entrada K → apreciación COP → ↓X, ↑M → ↓NX → ↓DA</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:1rem;border-left:3px solid #8B6914">
+          <div style="font-size:12px;font-weight:600;color:var(--dorado);margin-bottom:.4rem">5. Canal de Expectativas</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.7)">Anuncio creíble de metas → ↓πᵉ → menores demandas salariales → ↓costos → ↓π sin sacrificio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EJERCICIOS TIPO EXAMEN -->
+<section id="ejercicios" style="background:#fff;padding:5rem 1.5rem">
+  <div class="sec-inner">
+    <p class="sec-label">Preparación para evaluaciones</p>
+    <h2 class="sec-title">Banco de Ejercicios · Estilo Examen UNAL</h2>
+    <p class="sec-sub">Ejercicios resueltos de estática comparativa y análisis de mecanismos, al estilo de los parciales del bloque 46 de la FCHE.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:2rem">
+      <!-- Lista de ejercicios -->
+      <div>
+        <div style="background:var(--verde-light);border-radius:var(--radius);padding:1rem;margin-bottom:1rem">
+          <h4 style="font-size:13px;font-weight:600;color:var(--verde-dark);margin-bottom:.75rem">Seleccionar ejercicio</h4>
+          <div id="ej-lista" style="display:flex;flex-direction:column;gap:6px">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem">
+          <h4 style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.75rem">Evaluaciones</h4>
+          <div style="font-size:13px;color:var(--text);line-height:1.8">
+            <div>📝 <strong>Parcial 1 (35%)</strong><br><span style="color:var(--text-muted);font-size:12px">Unidades 1-2 · IS-LM, Multiplicadores</span></div>
+            <div style="margin-top:.5rem">📝 <strong>Parcial 2 (35%)</strong><br><span style="color:var(--text-muted);font-size:12px">Unidades 3-4 · OA-DA, Expectativas, Microfundamentos</span></div>
+            <div style="margin-top:.5rem">📝 <strong>Examen Final (30%)</strong><br><span style="color:var(--text-muted);font-size:12px">Unidades 5-6 · Economía abierta, M-F</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ejercicio activo -->
+      <div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)">
+          <div style="background:var(--verde-dark);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between">
+            <span id="ej-curso" style="font-size:11px;font-weight:700;color:var(--dorado);text-transform:uppercase;letter-spacing:1px">MACRO1 · IS-LM</span>
+            <span id="ej-counter" style="font-size:12px;color:rgba(255,255,255,.6)">1 / 5</span>
+          </div>
+          <div style="padding:1.75rem">
+            <h3 id="ej-titulo" style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:1rem"></h3>
+            <div style="background:var(--verde-light);border-left:4px solid var(--verde);padding:1rem 1.25rem;border-radius:0 8px 8px 0;margin-bottom:1.25rem">
+              <p id="ej-enunciado" style="font-size:14px;line-height:1.8;color:var(--text)"></p>
+            </div>
+            <div style="margin-bottom:1.25rem">
+              <p style="font-size:12px;font-weight:600;color:var(--verde);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.5rem">💡 Pistas de resolución</p>
+              <ul id="ej-pistas" style="font-size:13px;color:var(--text-muted);line-height:1.8;padding-left:1.25rem"></ul>
+            </div>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+              <button class="btn btn-primary" id="ej-btn-sol" onclick="toggleSolucion()" style="font-size:13px;padding:9px 20px">Ver solución</button>
+              <button class="btn btn-outline" onclick="ejercicioNav(-1)" style="font-size:13px;padding:9px 16px;color:var(--verde);border-color:var(--verde)">← Anterior</button>
+              <button class="btn btn-outline" onclick="ejercicioNav(1)" style="font-size:13px;padding:9px 16px;color:var(--verde);border-color:var(--verde)">Siguiente →</button>
+            </div>
+            <div id="ej-solucion" style="display:none;background:var(--dorado-light);border:1px solid var(--dorado);border-radius:var(--radius);padding:1.25rem">
+              <p style="font-size:12px;font-weight:700;color:#8B6914;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.5rem">✅ Solución</p>
+              <p id="ej-sol-texto" style="font-size:13px;color:var(--text);line-height:1.8;white-space:pre-wrap"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GLOSARIO -->
+<section id="glosario" style="background:var(--bg);padding:5rem 1.5rem">
+  <div class="sec-inner">
+    <p class="sec-label">Referencia rápida</p>
+    <h2 class="sec-title">Glosario Macroeconómico</h2>
+    <p class="sec-sub">Definiciones esenciales de los conceptos clave de Macroeconomía I, II y III. Busca cualquier término.</p>
+
+    <div style="position:relative;max-width:500px;margin-bottom:2rem">
+      <input type="text" id="glos-search" placeholder="Buscar término... (ej: curva de Phillips, Solow, UIP)" oninput="buscarGlosario()"
+        style="width:100%;padding:12px 16px 12px 44px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:14px;background:var(--bg-card);color:var(--text)">
+      <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:18px">🔍</span>
+    </div>
+
+    <div id="glos-results" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem"></div>
+  </div>
+</section>
+
+<style>
+.glos-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}
+.glos-header{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;margin-bottom:.5rem}
+.glos-header strong{font-size:14px;color:var(--text);line-height:1.3}
+.glos-item p{font-size:13px;color:var(--text-muted);line-height:1.6}
+</style>
+
+<!-- CONTACTO -->
+<section id="contacto" style="background:var(--verde-light)">
+  <div class="sec-inner" style="max-width:700px">
+    <p class="sec-label">Contacto Académico</p>
+    <h2 class="sec-title">Canales de Comunicación</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem">
+      <div class="about-card">
+        <div class="about-card-icon">✉</div>
+        <h4>Correo Institucional</h4>
+        <p><a href="mailto:rjmesac@unal.edu.co" style="color:var(--verde)">rjmesac@unal.edu.co</a></p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🏛</div>
+        <h4>Oficina</h4>
+        <p>Bloque 46 · FCHE · UNAL Medellín<br>Calle 65 No 59A-110</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🔗</div>
+        <h4>LinkedIn</h4>
+        <p><a href="https://www.linkedin.com/" target="_blank" style="color:var(--verde)">Ver perfil profesional</a></p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">📋</div>
+        <h4>CvLAC · MinCiencias</h4>
+        <p><a href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000055291" target="_blank" style="color:var(--verde)">Hoja de vida científica</a></p>
+      </div>
+    </div>
+    <div style="background:var(--verde-dark);color:#fff;border-radius:var(--radius);padding:1.5rem;text-align:center">
+      <p style="font-size:14px;opacity:.8;margin-bottom:.5rem">Universidad Nacional de Colombia · Sede Medellín</p>
+      <p style="font-size:13px;opacity:.65">Facultad de Ciencias Humanas y Económicas · Departamento de Economía</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Prof. Ramón Javier Mesa Callejas</h3>
+      <p>Portal académico del Departamento de Economía · FCHE · Universidad Nacional de Colombia, Sede Medellín. Recursos pedagógicos para los cursos de Macroeconomía I, II y III.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="#perfil">Perfil</a></li>
+        <li><a href="#publicaciones">Publicaciones</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#graficas">Gráficas</a></li>
+        <li><a href="#datos">Datos Macro</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Recursos</h4>
+      <ul>
+        <li><a href="https://www.banrep.gov.co" target="_blank">Banco de la República</a></li>
+        <li><a href="https://www.dane.gov.co" target="_blank">DANE Colombia</a></li>
+        <li><a href="https://www.imf.org" target="_blank">FMI</a></li>
+        <li><a href="https://www.cepal.org" target="_blank">CEPAL</a></li>
+        <li><a href="https://scienti.minciencias.gov.co" target="_blank">CvLAC MinCiencias</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 · Prof. Ramón Javier Mesa Callejas · UNAL Medellín · FCHE</span>
+    <span>Diseñado para la comunidad estudiantil</span>
+  </div>
+</footer>
+
+<script>
+// ============ NAVIGATION ============
+function filtrarPubs(tipo, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pub-card').forEach(card => {
+    card.style.display = (tipo === 'todos' || card.dataset.tipo === tipo) ? 'block' : 'none';
+  });
+}
+function mostrarCurso(id, btn) {
+  document.querySelectorAll('.curso-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.curso-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function toggleUnidad(el) {
+  el.classList.toggle('open');
+}
+function mostrarChart(id, btn) {
+  document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.chart-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  initCharts();
+}
+
+// ============ CHART COLORS ============
+const C = {
+  verde: '#1A8A4A', verde2: '#006F3B', dorado: '#C9A84C',
+  azul: '#3B8BD4', rojo: '#E24B4A', naranja: '#EF9F27',
+  gris: 'rgba(255,255,255,0.2)', texto: 'rgba(255,255,255,0.7)',
+  grid: 'rgba(255,255,255,0.06)'
+};
+const darkOpts = {
+  plugins: { legend: { labels: { color: C.texto, font: { size: 11 } } } },
+  scales: {
+    x: { ticks: { color: C.texto, font: { size: 10 } }, grid: { color: C.grid } },
+    y: { ticks: { color: C.texto, font: { size: 10 } }, grid: { color: C.grid } }
+  }
+};
+function mergeOpts(...objs) { return Object.assign({}, ...objs); }
+
+let charts = {};
+function destroyChart(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
+
+// ============ IS-LM CHART ============
+function buildISLM() {
+  destroyChart('islm'); destroyChart('islmComp');
+  const dG = parseInt(document.getElementById('slG').value);
+  const dMs = parseInt(document.getElementById('slMs').value);
+  document.getElementById('valG').textContent = '+' + dG;
+  document.getElementById('valMs').textContent = '+' + dMs;
+
+  // IS: Y = A - b*i => i = (A-Y)/b | baseline: A=200, b=2
+  const A0 = 200, b = 2, A = A0 + dG;
+  // LM: M = kY - hi => i = (kY-M)/h | baseline: M=100, k=0.5, h=1
+  const M0 = 100, k = 0.5, h = 1, M = M0 + dMs;
+  const pts = 20;
+  const Ys = Array.from({length: pts}, (_, i) => 50 + i * 10);
+  const IS_base = Ys.map(y => (A0 - y) / b);
+  const IS_new = Ys.map(y => (A - y) / b);
+  const LM_base = Ys.map(y => (k * y - M0) / h);
+  const LM_new = Ys.map(y => (k * y - M) / h);
+  // equilibrium
+  const Yeq_base = (A0 * h + M0 * b) / (k * b + h);
+  const Yeq_new = (A * h + M * b) / (k * b + h);
+  const ieq_base = (A0 - Yeq_base) / b;
+  const ieq_new = (A - Yeq_new) / b;
+
+  const ctx = document.getElementById('chartISLM').getContext('2d');
+  charts['islm'] = new Chart(ctx, {
+    data: {
+      datasets: [
+        { type: 'line', label: 'IS (base)', data: Ys.map((y,i)=>({x:y,y:IS_base[i]})), borderColor: C.azul, borderWidth: 2, pointRadius: 0, tension: 0.3 },
+        ...(dG > 0 ? [{ type: 'line', label: 'IS (nueva)', data: Ys.map((y,i)=>({x:y,y:IS_new[i]})), borderColor: C.azul, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.3 }] : []),
+        { type: 'line', label: 'LM (base)', data: Ys.map((y,i)=>({x:y,y:LM_base[i]})), borderColor: C.dorado, borderWidth: 2, pointRadius: 0, tension: 0.3 },
+        ...(dMs > 0 ? [{ type: 'line', label: 'LM (nueva)', data: Ys.map((y,i)=>({x:y,y:LM_new[i]})), borderColor: C.dorado, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.3 }] : []),
+        { type: 'scatter', label: 'Equilibrio', data: [{x: Yeq_new, y: ieq_new}], backgroundColor: C.rojo, pointRadius: 7 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { type: 'linear', title: { display: true, text: 'Producción (Y)', color: C.texto }, min: 50, max: 250, ticks: { color: C.texto }, grid: { color: C.grid } },
+        y: { type: 'linear', title: { display: true, text: 'Tasa de interés (i)', color: C.texto }, min: -5, max: 50, ticks: { color: C.texto }, grid: { color: C.grid } }
+      },
+      plugins: { legend: { labels: { color: C.texto, font: { size: 10 } } } }
+    }
+  });
+
+  // Update mechanism text
+  let mecText = [];
+  if (dG > 0) mecText = ['↑G (fiscal)', '↑DA → ↑Y', 'IS se desplaza ↗', '↑i en LM', 'Crowding-out parcial'];
+  if (dMs > 0) mecText = ['↑Ms (monetaria)', '↓i (exceso de M)', 'LM se desplaza ↘', '↑I(i) → ↑Y', 'Nuevo equilibrio'];
+  if (dG > 0 && dMs > 0) mecText = ['Mix Fiscal+Monetario', '↑Y máximo', '↓crowding-out', 'i puede estabilizarse', 'Política coordinada'];
+  const mecEl = document.getElementById('mec-islm');
+  if (mecText.length) mecEl.innerHTML = mecText.map((t,i) => `<span class="mec-step">${t}</span>${i<mecText.length-1?'<span class="mec-arrow">→</span>':''}`).join('');
+  else mecEl.innerHTML = '<span class="mec-step">Selecciona una política arriba</span>';
+
+  // IS-LM Comparison (sensitivity)
+  destroyChart('islmComp');
+  const sens = parseInt(document.getElementById('slSens').value);
+  const bHigh = sens * 1.5, bLow = sens * 0.5;
+  const ctx2 = document.getElementById('chartISLMcomp').getContext('2d');
+  charts['islmComp'] = new Chart(ctx2, {
+    data: {
+      datasets: [
+        { type: 'line', label: 'IS empinada (I poco sensible a i)', data: Ys.map(y=>({x:y,y:(A0-y)/bLow})), borderColor: '#5B8DD9', borderWidth: 2, pointRadius: 0 },
+        { type: 'line', label: 'IS plana (I muy sensible a i)', data: Ys.map(y=>({x:y,y:(A0-y)/bHigh})), borderColor: '#90CBF9', borderWidth: 2, borderDash: [6,3], pointRadius: 0 },
+        { type: 'line', label: 'LM', data: Ys.map(y=>({x:y,y:(k*y-M0)/h})), borderColor: C.dorado, borderWidth: 2, pointRadius: 0 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { type:'linear', title:{display:true,text:'Y',color:C.texto}, min:50, max:250, ticks:{color:C.texto}, grid:{color:C.grid} },
+        y: { type:'linear', title:{display:true,text:'i',color:C.texto}, min:-5, max:60, ticks:{color:C.texto}, grid:{color:C.grid} }
+      },
+      plugins: { legend: { labels: { color: C.texto, font:{size:10} } } }
+    }
+  });
+}
+
+// ============ DA-OA CHART ============
+function buildDAOA() {
+  destroyChart('daoa'); destroyChart('daoaDyn');
+  const dDA = parseInt(document.getElementById('slDA').value);
+  const tipoOA = document.getElementById('selOA').value;
+  document.getElementById('valDA').textContent = dDA;
+  const Ys = Array.from({length:30},(_,i) => 40 + i*8);
+  const DA_base = Ys.map(y => 120 - y * 0.4);
+  const DA_new = Ys.map(y => 120 - y * 0.4 + dDA);
+  let OA;
+  if (tipoOA === 'keynesiana') OA = Ys.map(() => 50);
+  else if (tipoOA === 'clasica') OA = Array.from({length:30},(_,i) => i*10);
+  else OA = Ys.map(y => 30 + y * 0.35);
+  const ctx = document.getElementById('chartDAOA').getContext('2d');
+  charts['daoa'] = new Chart(ctx, {
+    data: {
+      datasets: [
+        { type:'line', label:'DA (base)', data:Ys.map((y,i)=>({x:y,y:DA_base[i]})), borderColor:C.azul, borderWidth:2, pointRadius:0, tension:0.3 },
+        ...(dDA!==0 ? [{ type:'line', label:'DA (nueva)', data:Ys.map((y,i)=>({x:y,y:DA_new[i]})), borderColor:C.azul, borderWidth:2, borderDash:[4,4], pointRadius:0, tension:0.3 }] : []),
+        { type:'line', label:`OA (${tipoOA})`, data:Ys.map((y,i)=>({x:y,y:OA[i]})), borderColor:C.dorado, borderWidth:2, pointRadius:0, tension:0.1 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      scales: {
+        x: { type:'linear', title:{display:true,text:'Producto (Y)',color:C.texto}, min:40, max:280, ticks:{color:C.texto}, grid:{color:C.grid} },
+        y: { type:'linear', title:{display:true,text:'Nivel de Precios (P)',color:C.texto}, min:0, max:160, ticks:{color:C.texto}, grid:{color:C.grid} }
+      },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+
+  // Dynamic adjustment
+  const fase = parseInt(document.getElementById('slFase').value);
+  const fases = ['Inicial','Corto plazo (shock)','Largo plazo (ajuste salarial)'];
+  document.getElementById('valFase').textContent = fases[fase];
+  const DA_dyn = Ys.map(y => 120 - y*0.4 + (fase>=1?25:0));
+  const OA_cp = Ys.map(y => 30 + y*0.35);
+  const OA_lp = Ys.map(y => 30 + y*0.35 + (fase>=2?20:0));
+  const ctx2 = document.getElementById('chartDAOAdyn').getContext('2d');
+  destroyChart('daoaDyn');
+  charts['daoaDyn'] = new Chart(ctx2, {
+    data:{
+      datasets:[
+        { type:'line', label:'DA', data:Ys.map((y,i)=>({x:y,y:DA_dyn[i]})), borderColor:C.azul, borderWidth:2, pointRadius:0, tension:0.3 },
+        { type:'line', label:'OA (CP)', data:Ys.map((y,i)=>({x:y,y:OA_cp[i]})), borderColor:C.dorado, borderWidth:2, pointRadius:0 },
+        ...(fase>=2 ? [{ type:'line', label:'OA (LP, ↑W)', data:Ys.map((y,i)=>({x:y,y:OA_lp[i]})), borderColor:C.naranja, borderWidth:2, borderDash:[4,4], pointRadius:0 }] : [])
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        x:{type:'linear',title:{display:true,text:'Y',color:C.texto},min:40,max:280,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'P',color:C.texto},min:0,max:160,ticks:{color:C.texto},grid:{color:C.grid}}
+      },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+}
+
+// ============ PHILLIPS CHART ============
+function buildPhillips() {
+  destroyChart('phillips'); destroyChart('phillipsComp');
+  const pie = parseFloat(document.getElementById('slPie').value);
+  const un = parseFloat(document.getElementById('slUn').value);
+  document.getElementById('valPie').textContent = pie + '%';
+  document.getElementById('valUn').textContent = un + '%';
+  const Us = Array.from({length:30},(_,i) => 2 + i*0.8);
+  const eps = 0.8;
+  const Phillips = Us.map(u => pie - eps*(u - un));
+  const ctx = document.getElementById('chartPhillips').getContext('2d');
+  charts['phillips'] = new Chart(ctx, {
+    data:{
+      datasets:[
+        { type:'line', label:`Phillips (πᵉ=${pie}%, uⁿ=${un}%)`, data:Us.map((u,i)=>({x:u,y:Phillips[i]})), borderColor:C.verde, borderWidth:2.5, pointRadius:0, tension:0.3 },
+        { type:'scatter', label:'Tasa natural (uⁿ)', data:[{x:un,y:pie}], backgroundColor:C.dorado, pointRadius:8 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        x:{type:'linear',title:{display:true,text:'Tasa de desempleo u (%)',color:C.texto},min:2,max:26,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'Inflación π (%)',color:C.texto},min:-10,max:25,ticks:{color:C.texto},grid:{color:C.grid}}
+      },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+
+  // Historical comparison
+  const escenario = document.getElementById('selPhillips').value;
+  let datasets2 = [];
+  if (escenario === 'original') {
+    datasets2 = [{ type:'line', label:'Original 1960s (πᵉ=2%)', data:Us.map(u=>({x:u,y:2-0.8*(u-8)})), borderColor:C.azul, borderWidth:2, pointRadius:0, tension:0.3 }];
+  } else if (escenario === 'stagflation') {
+    datasets2 = [
+      { type:'line', label:'1970s (πᵉ=2%)', data:Us.map(u=>({x:u,y:2-0.8*(u-8)})), borderColor:C.azul, borderWidth:1.5, borderDash:[4,4], pointRadius:0, tension:0.3 },
+      { type:'line', label:'1970s (πᵉ=8%, shock petróleo)', data:Us.map(u=>({x:u,y:8-0.8*(u-8)+3})), borderColor:C.rojo, borderWidth:2.5, pointRadius:0, tension:0.3 }
+    ];
+  } else {
+    datasets2 = [
+      { type:'line', label:'Moderna (πᵉ bien anclada ≈2%)', data:Us.map(u=>({x:u,y:2-0.3*(u-6)})), borderColor:C.verde, borderWidth:2.5, pointRadius:0, tension:0.3 },
+      { type:'line', label:'Sin credibilidad (πᵉ=6%)', data:Us.map(u=>({x:u,y:6-0.8*(u-8)})), borderColor:C.naranja, borderWidth:1.5, borderDash:[4,4], pointRadius:0, tension:0.3 }
+    ];
+  }
+  const ctx2 = document.getElementById('chartPhillipsComp').getContext('2d');
+  charts['phillipsComp'] = new Chart(ctx2, {
+    data:{ datasets: datasets2 },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        x:{type:'linear',title:{display:true,text:'Desempleo u (%)',color:C.texto},min:2,max:26,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'Inflación π (%)',color:C.texto},min:-5,max:20,ticks:{color:C.texto},grid:{color:C.grid}}
+      },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+}
+
+// ============ SOLOW CHART ============
+function buildSolow() {
+  destroyChart('solow'); destroyChart('solowComp');
+  const s = parseFloat(document.getElementById('slS').value);
+  const delta = parseFloat(document.getElementById('slDelta').value);
+  const n = 0.02;
+  document.getElementById('valS').textContent = Math.round(s*100) + '%';
+  document.getElementById('valDelta').textContent = Math.round(delta*100) + '%';
+  const ks = Array.from({length:50},(_,i) => 0.5 + i*2.5);
+  const fk = k => Math.pow(k, 0.5); // Y/N = k^alpha
+  const invest = ks.map(k => s * fk(k));
+  const deprec = ks.map(k => (delta + n) * k);
+  // find kstar
+  const kstar = Math.pow(s/(delta+n), 2); // analytic for alpha=0.5
+  const ctx = document.getElementById('chartSolow').getContext('2d');
+  charts['solow'] = new Chart(ctx, {
+    data:{
+      datasets:[
+        { type:'line', label:'Producción f(k)', data:ks.map((k,i)=>({x:k,y:fk(k)})), borderColor:'rgba(255,255,255,0.35)', borderWidth:1.5, pointRadius:0, borderDash:[3,3], tension:0.3 },
+        { type:'line', label:'Inversión s·f(k)', data:ks.map((k,i)=>({x:k,y:invest[i]})), borderColor:C.verde, borderWidth:2.5, pointRadius:0, tension:0.3 },
+        { type:'line', label:'Depreciación (δ+n)k', data:ks.map((k,i)=>({x:k,y:deprec[i]})), borderColor:C.rojo, borderWidth:2.5, pointRadius:0, tension:0.1 },
+        { type:'scatter', label:`k* = ${kstar.toFixed(1)}`, data:[{x:kstar,y:s*fk(kstar)}], backgroundColor:C.dorado, pointRadius:9 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        x:{type:'linear',title:{display:true,text:'Capital por trabajador k',color:C.texto},min:0,max:130,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'Producción / inversión por trabajador',color:C.texto},min:0,max:12,ticks:{color:C.texto},grid:{color:C.grid}}
+      },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+
+  // Comparison of savings rates
+  const tasas = [0.15, 0.25, 0.35];
+  const colores = [C.azul, C.verde, C.naranja];
+  const ctx2 = document.getElementById('chartSolowComp').getContext('2d');
+  charts['solowComp'] = new Chart(ctx2, {
+    data:{
+      datasets: tasas.map((si,idx) => ({
+        type:'line', label:`s = ${Math.round(si*100)}%`,
+        data: ks.map(k=>({x:k,y:si*fk(k)})),
+        borderColor: colores[idx], borderWidth:2, pointRadius:0, tension:0.3
+      })).concat([{
+        type:'line', label:'Depreciación (δ+n)k', data:ks.map(k=>({x:k,y:(0.08+n)*k})), borderColor:C.rojo, borderWidth:2, pointRadius:0
+      }])
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        x:{type:'linear',title:{display:true,text:'k',color:C.texto},min:0,max:130,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'s·f(k) o (δ+n)k',color:C.texto},min:0,max:12,ticks:{color:C.texto},grid:{color:C.grid}}
+      },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+}
+
+// ============ MUNDELL-FLEMING CHARTS ============
+function buildMF() {
+  destroyChart('mfFixed'); destroyChart('mfFloat');
+  const dG = parseInt(document.getElementById('slMFG').value);
+  const dMs = parseInt(document.getElementById('slMFMs').value);
+  document.getElementById('valMFG').textContent = '+' + dG;
+  document.getElementById('valMFMs').textContent = '+' + dMs;
+  const Ys = Array.from({length:25},(_,i)=>50+i*10);
+  const A0=200, b=2, M=100, k=0.5, h=1, iStar=10;
+  // TC Fijo: IS-LM-BP (BP horizontal en i=i*)
+  const IS_base = Ys.map(y=>(A0-y)/b);
+  const IS_new_fixed = Ys.map(y=>(A0+dG-y)/b);
+  const LM_fixed = Ys.map(y=>(k*y-M)/h);
+  const BP_fixed = Ys.map(()=>iStar);
+  const ctx1 = document.getElementById('chartMFFixed').getContext('2d');
+  charts['mfFixed'] = new Chart(ctx1, {
+    data:{ datasets:[
+      { type:'line',label:'IS (base)',data:Ys.map((y,i)=>({x:y,y:IS_base[i]})),borderColor:C.azul,borderWidth:2,pointRadius:0,tension:0.3 },
+      ...(dG>0?[{ type:'line',label:'IS (nueva)',data:Ys.map((y,i)=>({x:y,y:IS_new_fixed[i]})),borderColor:C.azul,borderWidth:2,borderDash:[4,4],pointRadius:0,tension:0.3 }]:[]),
+      { type:'line',label:'LM',data:Ys.map((y,i)=>({x:y,y:LM_fixed[i]})),borderColor:C.dorado,borderWidth:2,pointRadius:0,tension:0.3 },
+      { type:'line',label:'BP (i=i*)',data:Ys.map((y,i)=>({x:y,y:BP_fixed[i]})),borderColor:C.verde,borderWidth:2,borderDash:[6,2],pointRadius:0 },
+    ]},
+    options:{ responsive:true,maintainAspectRatio:false,
+      scales:{ x:{type:'linear',title:{display:true,text:'Y',color:C.texto},min:50,max:250,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'i',color:C.texto},min:-5,max:50,ticks:{color:C.texto},grid:{color:C.grid}} },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+  // TC Flexible: IS shifts back to original after monetary policy
+  const LM_new_float = Ys.map(y=>(k*y-(M+dMs))/h);
+  const IS_shift_back = Ys.map(y=>(A0+dG-y)/b); // after apreciación, IS returns
+  const ctx2 = document.getElementById('chartMFFloat').getContext('2d');
+  charts['mfFloat'] = new Chart(ctx2, {
+    data:{ datasets:[
+      { type:'line',label:'IS (base)',data:Ys.map((y,i)=>({x:y,y:IS_base[i]})),borderColor:C.azul,borderWidth:2,pointRadius:0,tension:0.3 },
+      { type:'line',label:'LM (base)',data:Ys.map((y,i)=>({x:y,y:LM_fixed[i]})),borderColor:C.dorado,borderWidth:2,pointRadius:0,tension:0.3 },
+      ...(dMs>0?[{ type:'line',label:'LM (nueva)',data:Ys.map((y,i)=>({x:y,y:LM_new_float[i]})),borderColor:C.dorado,borderWidth:2,borderDash:[4,4],pointRadius:0 }]:[]),
+      { type:'line',label:'BP (i=i*)',data:Ys.map(()=>({x:undefined,y:iStar})).map((y,i)=>({x:Ys[i],y:iStar})),borderColor:C.verde,borderWidth:2,borderDash:[6,2],pointRadius:0 },
+    ]},
+    options:{ responsive:true,maintainAspectRatio:false,
+      scales:{ x:{type:'linear',title:{display:true,text:'Y',color:C.texto},min:50,max:250,ticks:{color:C.texto},grid:{color:C.grid}},
+        y:{type:'linear',title:{display:true,text:'i',color:C.texto},min:-5,max:50,ticks:{color:C.texto},grid:{color:C.grid}} },
+      plugins:{legend:{labels:{color:C.texto,font:{size:10}}}}
+    }
+  });
+}
+
+// ============ COMPARACIÓN TIMELINE ============
+function buildTimeline() {
+  destroyChart('timeline');
+  const ctx = document.getElementById('chartTimeline');
+  if (!ctx) return;
+  charts['timeline'] = new Chart(ctx.getContext('2d'), {
+    type:'bar',
+    data:{
+      labels:['1936','1940s-50s','1960s','1970s','1980s','1990s','2000s','2010s-hoy'],
+      datasets:[{
+        label:'Paradigma dominante',
+        data:[8,9,9,6,8,8,9,9],
+        backgroundColor:['#3B8BD4','#3B8BD4','#1A8A4A','#E24B4A','#EF9F27','#1A8A4A','#1A8A4A','#8B6914'],
+      }]
+    },
+    options:{
+      indexAxis:'x', responsive:true, maintainAspectRatio:false,
+      scales:{ x:{ticks:{color:C.texto,font:{size:11}},grid:{color:C.grid}}, y:{display:false} },
+      plugins:{
+        legend:{display:false},
+        tooltip:{ callbacks:{ label: function(c) {
+          const labels = {
+            '1936':'Keynes: Teoría General',
+            '1940s-50s':'Síntesis Neoclásica (IS-LM)',
+            '1960s':'Curva de Phillips original',
+            '1970s':'Stagflation: crítica monetarista',
+            '1980s':'Expectativas Racionales (Lucas)',
+            '1990s':'Nueva Síntesis Keynesiana',
+            '2000s':'DSGE y Modelos Microfundados',
+            '2010s-hoy':'ZLB, QE, Metas de inflación'
+          };
+          return labels[c.label] || '';
+        }}}
+      }
+    }
+  });
+}
+
+// ============ INIT & EVENT LISTENERS ============
+let chartsInitialized = false;
+function initCharts() {
+  const activePanel = document.querySelector('.chart-panel.active');
+  if (!activePanel) return;
+  const id = activePanel.id.replace('panel-','');
+  if (id==='islm') buildISLM();
+  else if (id==='daofa') buildDAOA();
+  else if (id==='phillips') buildPhillips();
+  else if (id==='solow') buildSolow();
+  else if (id==='mf') buildMF();
+  else if (id==='comparacion') buildTimeline();
+}
+
+// Sliders & selects
+const sliderIds = ['slG','slMs','slSens','slDA','slFase','slPie','slUn','slS','slDelta','slMFG','slMFMs'];
+sliderIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', initCharts);
+});
+['selOA','selPhillips'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', initCharts);
+});
+
+// Init on load
+window.addEventListener('load', () => {
+  buildISLM();
+  buildBanRepSim();
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { initCharts(); } });
+  }, { threshold: 0.1 });
+  const grafSection = document.getElementById('graficas');
+  if (grafSection) observer.observe(grafSection);
+});
+
+// ============ BANREP SIMULATOR ============
+function buildBanRepSim() {
+  const repo = parseFloat(document.getElementById('sim-repo').value);
+  const shock = document.getElementById('sim-shock').value;
+  document.getElementById('sim-repo-val').textContent = repo.toFixed(2) + '%';
+
+  // Transmission logic
+  const baseInfl = 5.5;
+  const baseGDP = 1.7;
+  const baseUnemp = 10.2;
+  const baseTCR = 4150;
+
+  let dInfl = 0, dGDP = 0, dUnemp = 0, dTCR = 0, dConsumo = 0, dInvers = 0;
+  const repoEffect = repo - 9.75;
+  dInfl    = -repoEffect * 0.4;
+  dGDP     = -repoEffect * 0.3;
+  dUnemp   =  repoEffect * 0.2;
+  dTCR     = -repoEffect * 80;
+  dConsumo = -repoEffect * 0.5;
+  dInvers  = -repoEffect * 0.7;
+
+  if (shock === 'petroleo') { dInfl += 1.5; dTCR -= 200; dGDP += 0.4; }
+  if (shock === 'devaluacion') { dInfl += 2.0; dTCR += 400; dGDP += 0.5; dUnemp -= 0.3; }
+  if (shock === 'recesion_global') { dGDP -= 1.2; dUnemp += 1.0; dInfl -= 0.5; }
+  if (shock === 'entrada_capital') { dTCR -= 300; dInfl += 0.3; dGDP += 0.2; }
+
+  const proyInfl = Math.max(0, baseInfl + dInfl).toFixed(1);
+  const proyGDP  = (baseGDP + dGDP).toFixed(1);
+  const proyUnemp= Math.max(0, baseUnemp + dUnemp).toFixed(1);
+  const proyTCR  = Math.round(baseTCR + dTCR);
+  const proyCons = (3.2 + dConsumo).toFixed(1);
+  const proyInv  = (1.8 + dInvers).toFixed(1);
+
+  const fmt = (v, base) => {
+    const diff = parseFloat(v) - base;
+    const sign = diff >= 0 ? '+' : '';
+    const cls = diff >= 0 ? 'pos' : 'neg';
+    return `<span class="dato-var ${cls}">${sign}${diff.toFixed(1)} vs base</span>`;
+  };
+
+  document.getElementById('sim-infl').innerHTML    = `${proyInfl}% ${fmt(proyInfl, baseInfl)}`;
+  document.getElementById('sim-gdp').innerHTML     = `${proyGDP}% ${fmt(proyGDP, baseGDP)}`;
+  document.getElementById('sim-unemp').innerHTML   = `${proyUnemp}% ${fmt(proyUnemp, baseUnemp)}`;
+  document.getElementById('sim-tcr').innerHTML     = `$${proyTCR.toLocaleString()} ${fmt(proyTCR/baseTCR*baseInfl, baseInfl)}`;
+  document.getElementById('sim-cons').innerHTML    = `${proyCons}% ${fmt(proyCons, 3.2)}`;
+  document.getElementById('sim-inv').innerHTML     = `${proyInv}% ${fmt(proyInv, 1.8)}`;
+
+  // Build projection chart
+  destroyChart('simChart');
+  const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const inflTraj = meses.map((_,i) => parseFloat(proyInfl) + (baseInfl - parseFloat(proyInfl)) * Math.exp(-i*0.25) - (baseInfl - parseFloat(proyInfl)) * Math.exp(-i*0.25) + (Math.random()*0.2 - 0.1));
+  const inflBase  = meses.map((_,i) => baseInfl - i*0.05);
+  const ctx = document.getElementById('simChart');
+  if (ctx) {
+    charts['simChart'] = new Chart(ctx.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: meses,
+        datasets: [
+          { label: 'Inflación proyectada', data: inflTraj.map(v => +v.toFixed(2)), borderColor: C.dorado, borderWidth: 2.5, pointRadius: 3, tension: 0.4, fill: false },
+          { label: 'Escenario base', data: inflBase.map(v => +v.toFixed(2)), borderColor: 'rgba(255,255,255,0.3)', borderWidth: 1.5, borderDash: [4,4], pointRadius: 0, tension: 0.4 },
+          { label: 'Meta BanRep (3%)', data: meses.map(()=>3), borderColor: C.verde, borderWidth: 1, borderDash: [2,4], pointRadius: 0 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { ticks: { color: C.texto, font: { size: 10 } }, grid: { color: C.grid } },
+          y: { title: { display: true, text: 'Inflación (%)', color: C.texto }, ticks: { color: C.texto }, grid: { color: C.grid }, min: 0, max: 12 }
+        },
+        plugins: { legend: { labels: { color: C.texto, font: { size: 10 } } } }
+      }
+    });
+  }
+}
+
+// ============ EJERCICIOS TIPO EXAMEN ============
+const ejercicios = [
+  {
+    curso: 'macro1', unidad: 'IS-LM',
+    titulo: 'Efecto de política monetaria expansiva en IS-LM',
+    enunciado: 'El Banco de la República reduce la tasa de intervención del 11% al 9%. Suponga: IS: Y = 300 - 1500i; LM: Y = 100 + 2000i + 2(M/P). Con M/P=80 inicial. (a) Calcule el equilibrio inicial. (b) Si M/P sube a 90, encuentre el nuevo equilibrio. (c) Explique el mecanismo de transmisión paso a paso.',
+    pistas: ['Iguala IS y LM para encontrar Y* e i*', 'Recuerda: ↑M/P desplaza LM hacia la derecha (↓i dado Y)', 'El mecanismo: ↑Ms → ↓i → ↑I → ↑Y'],
+    solucion: 'IS: Y=300-1500i → i=(300-Y)/1500. LM: Y=100+2000i+2·80=260+2000i → i=(Y-260)/2000. Igualando: (300-Y)/1500=(Y-260)/2000 → 2000(300-Y)=1500(Y-260) → 600000-2000Y=1500Y-390000 → 990000=3500Y → Y*=282.9; i*=1.15%. Nueva LM (M/P=90): Y=100+2000i+180=280+2000i. Nueva: Y*=290.9; i*=0.55%. ΔY=+8; Δi=-0.6%.'
+  },
+  {
+    curso: 'macro2', unidad: 'OA-DA',
+    titulo: 'Shock de oferta negativo en modelo OA-DA',
+    enunciado: 'Colombia enfrenta un encarecimiento del 40% en el precio de los insumos importados (shock de oferta negativo). En el modelo OA-DA: (a) ¿Qué curva se desplaza y en qué dirección? (b) ¿Cuál es el efecto sobre P y Y en el corto plazo? (c) ¿Qué dilema enfrentan las autoridades? (d) Explique las opciones de política.',
+    pistas: ['El shock encarece costos de producción: afecta OA', 'OA se desplaza hacia arriba/izquierda: menos Y para cada P', 'El dilema: si estabilizan Y con DA, empeoran la inflación; si controlan P con DA, profundizan la recesión'],
+    solucion: '(a) OA se desplaza hacia arriba (↑costos → ↑P para cada nivel de Y, o equivalente: ↓Y para cada P). (b) CP: ↑P Y↓ — stagflation. (c) Dilema político: (c1) Política expansiva para defender Y: DA se desplaza ↗ → aún más inflación. (c2) Política contractiva para defender P: DA se desplaza ↙ → mayor desempleo. (d) Sin respuesta de política: en LP, si los salarios se ajustan a la baja eventualmente OA regresa, pero con altos costos sociales. Solución moderna: política de ingresos + credibilidad de metas de inflación.'
+  },
+  {
+    curso: 'macro2', unidad: 'Mundell-Fleming',
+    titulo: 'Política fiscal bajo tipo de cambio flexible y alta movilidad de K',
+    enunciado: 'El gobierno colombiano anuncia un aumento del gasto público (↑G) bajo un régimen de tipo de cambio flexible y alta movilidad de capitales (caso Mundell-Fleming). (a) Trace el proceso de ajuste en el diagrama IS-LM-BP. (b) ¿Cuál es el efecto final sobre Y? (c) ¿Por qué ocurre el crowding-out externo? (d) Compare con el caso de tipo de cambio fijo.',
+    pistas: ['Inicio: ↑G → IS se desplaza ↗ → i↑ por encima de i*', 'Alta movilidad: i>i* → entrada de capitales → demanda de COP → apreciación del peso', 'Apreciación → ↓NX → IS regresa a posición original'],
+    solucion: '(a) ↑G: IS₀→IS₁. Nuevo equilibrio temporal: i>i*, Y>Y₀. BP: i>i* → entrada K → ↑demanda COP → apreciación E. Apreciación → ↓X, ↑M → ↓NX → IS₁→IS₀. Equilibrio final: Y=Y₀, i=i*, E apreciado. (b) Y no cambia: crowding-out externo completo. (c) Mecanismo: ↑i → flujos K → apreciación → ↓NX = -ΔG. (d) TC Fijo: ↑G → i>i* → entrada K → BanRep compra divisas → ↑M → LM ↘ → i baja a i* → Y↑. Política fiscal MUY efectiva con TC fijo. Con TC flexible: completamente ineficaz.'
+  },
+  {
+    curso: 'macro3', unidad: 'Overshooting',
+    titulo: 'Overshooting cambiario (Dornbusch): ↑Ms y dinámica del tipo de cambio',
+    enunciado: 'El BanRep anuncia una reducción inesperada de tasas (↑Ms). Explique el fenómeno de overshooting: (a) ¿Por qué el tipo de cambio salta más allá del equilibrio LP? (b) ¿Qué velocidades de ajuste son clave? (c) ¿Cuál es la trayectoria del TC hasta el equilibrio? (d) Implicación para la inflación importada en Colombia.',
+    pistas: ['Clave: precios de bienes se ajustan lentamente; TC se ajusta inmediatamente', 'UIP: para que i<i*, el TC debe depreciarse gradualmente: ya está "demasiado depreciado"', 'En LP: ↑P → M/P vuelve al nivel original; TC = nivel PPP'],
+    solucion: '(a) ↑Ms → ↓i. UIP requiere: i = i* + (TCᵉ-TC)/TC. Con i<i*, TC debe apreciarse en el futuro, lo que implica que HOY está demasiado depreciado. (b) Velocidades: TC: instantánea (mercado financiero); Precios: lenta (costos menú, contratos). Esta dicotomía genera overshooting. (c) Trayectoria: en t=0: TC salta a E_overshoot > E_LP; luego: apreciación gradual hacia E_LP mientras P sube. (d) Colombia: ↑Ms → depreciación excesiva del peso → ↑precio importaciones → presión inflacionaria de corto plazo que contradice el objetivo expansivo. El BanRep debe comunicar el mecanismo para anclar expectativas.'
+  },
+  {
+    curso: 'macro1', unidad: 'Solow',
+    titulo: 'Efecto de un aumento en la tasa de ahorro en el modelo de Solow',
+    enunciado: 'En el modelo de Solow con función de producción Y=K^0.5·L^0.5, tasa de depreciación δ=0.08, crecimiento poblacional n=0.02, y tasa de ahorro inicial s=0.20: (a) Calcule el estado estacionario k* y y*=Y/N. (b) Si s sube a 0.30, ¿cuál es el nuevo k*? (c) ¿El crecimiento es permanente o transitorio? (d) ¿Qué implicación tiene para la política pública?',
+    pistas: ['En per cápita: y = k^0.5 (dividir todo por L)', 'Estado estacionario: s·f(k*) = (δ+n)·k* → s·k*^0.5 = (δ+n)·k*', 'Despeja k*: k* = [s/(δ+n)]²'],
+    solucion: '(a) s·k^0.5=(δ+n)k → s=(δ+n)·k^0.5 → k*=[s/(δ+n)]². Con s=0.20, δ+n=0.10: k*=(0.20/0.10)²=4. y*=√4=2. (b) s=0.30: k*=(0.30/0.10)²=9. y*=3. ↑k*: 4→9; ↑y*: 2→3. (c) El crecimiento es TRANSITORIO: mientras k<k* hay crecimiento positivo, pero en el estado estacionario la tasa de crecimiento per cápita vuelve a cero (solo hay crecimiento del nivel). Para crecimiento permanente se necesita progreso tecnológico (A). (d) Política: aumentar s (incentivos al ahorro, reforma pensional) eleva el nivel de ingreso permanente, pero no la tasa de crecimiento LP sin innovación. La TFP (productividad total) es la fuente del crecimiento sostenido.'
+  }
+];
+
+let ejercicioActual = 0;
+function renderEjercicio(idx) {
+  const e = ejercicios[idx];
+  document.getElementById('ej-curso').textContent = e.curso.toUpperCase() + ' · ' + e.unidad;
+  document.getElementById('ej-titulo').textContent = e.titulo;
+  document.getElementById('ej-enunciado').textContent = e.enunciado;
+  document.getElementById('ej-pistas').innerHTML = e.pistas.map(p => `<li>${p}</li>`).join('');
+  document.getElementById('ej-sol-texto').textContent = e.solucion;
+  document.getElementById('ej-solucion').style.display = 'none';
+  document.getElementById('ej-btn-sol').textContent = 'Ver solución';
+  document.getElementById('ej-counter').textContent = (idx + 1) + ' / ' + ejercicios.length;
+  // Update list highlights
+  const lista = document.getElementById('ej-lista');
+  if (lista) {
+    lista.querySelectorAll('.ej-list-item').forEach((el, i) => {
+      el.style.background = i === idx ? 'var(--verde)' : 'var(--bg-card)';
+      el.style.color = i === idx ? '#fff' : 'var(--text)';
+    });
+  }
+}
+function toggleSolucion() {
+  const sol = document.getElementById('ej-solucion');
+  const btn = document.getElementById('ej-btn-sol');
+  if (sol.style.display === 'none') { sol.style.display = 'block'; btn.textContent = 'Ocultar solución'; }
+  else { sol.style.display = 'none'; btn.textContent = 'Ver solución'; }
+}
+function ejercicioNav(dir) {
+  ejercicioActual = Math.max(0, Math.min(ejercicios.length - 1, ejercicioActual + dir));
+  renderEjercicio(ejercicioActual);
+}
+
+// ============ GLOSARIO SEARCH ============
+const glosario = [
+  { t: 'IS (Inversión-Ahorro)', d: 'Curva que representa las combinaciones (Y, i) que equilibran el mercado de bienes. Pendiente negativa: ↑i → ↓I → ↓Y. Se desplaza con cambios en G, T o componentes autónomos de C e I.', c: 'macro1' },
+  { t: 'LM (Liquidez-Dinero)', d: 'Curva que representa las combinaciones (Y, i) que equilibran el mercado de dinero (M/P = L(Y,i)). Pendiente positiva: ↑Y → ↑Md → ↑i. Se desplaza con cambios en Ms o P.', c: 'macro1' },
+  { t: 'Curva de Phillips', d: 'Relación inversa empírica entre inflación (π) y desempleo (u). Versión aumentada: π = πᵉ - ε(u - uⁿ). A LP con expectativas racionales: vertical en uⁿ.', c: 'macro2' },
+  { t: 'Tasa Natural de Desempleo (uⁿ)', d: 'Tasa de desempleo de equilibrio que existe incluso en pleno empleo (friccional + estructural). No existe un trade-off permanente inflación-desempleo en torno a uⁿ.', c: 'macro2' },
+  { t: 'Modelo de Solow', d: 'Modelo de crecimiento a LP. Capital por trabajador: Δk = s·f(k) - (δ+n)k. Estado estacionario k*: crecimiento per cápita = 0. Solo el progreso tecnológico genera crecimiento permanente.', c: 'macro1' },
+  { t: 'Demanda Agregada (DA)', d: 'Relación inversa entre nivel de precios P y producto Y. Derivada del modelo IS-LM: ↑P → ↓M/P → LM sube → ↓Y. Se desplaza con políticas fiscal y monetaria.', c: 'macro1' },
+  { t: 'Oferta Agregada (OA)', d: 'Relación entre P y Y desde el lado de la producción. OA keynesiana: horizontal (precios rígidos). OA clásica: vertical (pleno empleo). OA intermedia: pendiente positiva.', c: 'macro1' },
+  { t: 'Mundell-Fleming', d: 'Extensión del IS-LM a economía abierta con movilidad de capitales. Resultado: con TC fijo la política fiscal es muy efectiva; con TC flexible, la política monetaria lo es.', c: 'macro2' },
+  { t: 'Paridad Descubierta de Tasas (UIP)', d: 'i = i* + (TCᵉ - TC)/TC. El diferencial de tasas doméstico y extranjero iguala la depreciación esperada del tipo de cambio. Base del modelo de Dornbusch (overshooting).', c: 'macro2' },
+  { t: 'Paridad del Poder de Compra (PPP)', d: 'En su versión relativa: π_dom - π_ext = ΔTC. La inflación relativa determina la depreciación del tipo de cambio nominal en el LP.', c: 'macro2' },
+  { t: 'Overshooting (Dornbusch)', d: 'Cuando los precios son rígidos a CP, una expansión monetaria deprecia el TC más allá del equilibrio LP. Luego el TC se aprecia gradualmente mientras los precios suben.', c: 'macro3' },
+  { t: 'Trinidad Imposible', d: 'No se puede tener simultáneamente: TC fijo + libre movilidad de K + política monetaria autónoma. Colombia elige flotación + cierta autonomía, sacrificando el TC fijo.', c: 'macro3' },
+  { t: 'Crowding Out', d: 'Efecto de desplazamiento de la inversión privada por el gasto público. En IS-LM: ↑G → ↑Y → ↑Md → ↑i → ↓I privada. El efecto es parcial (IS-LM cerrada) o total (M-F, TC flexible).', c: 'macro1' },
+  { t: 'q de Tobin', d: 'q = Valor bursátil / Costo de reposición del capital. q>1: conviene invertir; q<1: no. Canal de transmisión monetaria: ↑i → ↓cotización bursátil → ↓q → ↓I.', c: 'macro2' },
+  { t: 'Hipótesis del Ingreso Permanente', d: 'Friedman (1957): el consumo depende del ingreso permanente (promedio esperado de por vida), no del transitorio. Implicación: multiplicador keynesiano es pequeño si los consumidores son racionales y anticipan el futuro.', c: 'macro2' },
+  { t: 'Crítica de Lucas', d: 'Los parámetros de los modelos econométricos cambiarán si cambia la política. Los modelos keynesianos estimados con una política dada no predicen correctamente bajo una política diferente. Base de los modelos DSGE.', c: 'macro2' },
+  { t: 'Esterilización Monetaria', d: 'Operación del banco central para neutralizar el efecto monetario de la intervención cambiaria. Al comprar divisas emite pesos; para esterilizar, vende TES en el mercado abierto y retira esa liquidez.', c: 'macro3' },
+  { t: 'Déficit Gemelo (Twin Deficits)', d: 'Correlación entre déficit fiscal (G>T) y déficit en cuenta corriente (M>X). Identidad: CA = S_priv + S_pub - I. Si S_pub cae (déficit fiscal), CA se deteriora (más importaciones o menos exportaciones).', c: 'macro3' },
+  { t: 'Enfermedad Holandesa', d: 'Un boom de exportaciones (ej: petróleo) aprecia el TCR, encareciéndolas exportaciones del sector manufacturero y desindustrializando la economía. Relevante para Colombia dado el peso del petróleo en las exportaciones.', c: 'macro3' },
+  { t: 'Inflación Objetivo (IT)', d: 'Régimen en el que el banco central anuncia una meta explícita de inflación y usa la tasa de interés para alcanzarla. BanRep Colombia: meta 3% ±1pp. Ancla expectativas y reduce la inconsistencia dinámica.', c: 'macro3' },
+  { t: 'Multiplicador Keynesiano', d: 'ΔY = (1/(1-PMC)) × ΔG. Si PMC=0.8: multiplicador=5. En IS-LM con efecto crowding-out el multiplicador efectivo es menor. Con TC flexible en M-F: multiplicador=0 (política fiscal ineficaz).', c: 'macro1' },
+  { t: 'Regla de Oro del Capital (Solow)', d: 'Nivel de k que maximiza el consumo per cápita en el estado estacionario: f\'(k_oro) = δ+n. Si k* > k_oro: sobre-acumulación de capital (reduce s aumenta bienestar). Si k* < k_oro: sub-acumulación.', c: 'macro1' },
+  { t: 'Ciclo Real de Negocios (RBC)', d: 'Kydland y Prescott (1982): las fluctuaciones del PIB son respuestas óptimas de los agentes a shocks tecnológicos reales. La política monetaria es irrelevante. Base de los modelos DSGE modernos.', c: 'macro2' },
+  { t: 'Ley de Okun', d: 'Relación empírica entre variación del desempleo y crecimiento del PIB. Para Colombia: Δu ≈ -0.4·(ΔY - Ypot). Si la economía crece 1pp más rápido que el potencial, el desempleo baja ≈0.4pp.', c: 'macro2' },
+];
+
+function buscarGlosario() {
+  const q = document.getElementById('glos-search').value.toLowerCase();
+  const container = document.getElementById('glos-results');
+  const filtrado = q.length > 1 ? glosario.filter(g => g.t.toLowerCase().includes(q) || g.d.toLowerCase().includes(q)) : glosario;
+  container.innerHTML = filtrado.map(g => `
+    <div class="glos-item">
+      <div class="glos-header">
+        <strong>${g.t}</strong>
+        <span class="pub-tipo tipo-${g.c === 'macro1' ? 'boletin' : g.c === 'macro2' ? 'articulo' : 'columna'}">${g.c.toUpperCase()}</span>
+      </div>
+      <p>${g.d}</p>
+    </div>
+  `).join('') || '<p style="color:var(--text-muted);padding:1rem">Sin resultados.</p>';
+}
+
+// Init on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Render exercise list
+  const lista = document.getElementById('ej-lista');
+  if (lista) {
+    lista.innerHTML = ejercicios.map((e, i) => `
+      <button class="ej-list-item" onclick="ejercicioActual=${i};renderEjercicio(${i})"
+        style="text-align:left;padding:8px 12px;border-radius:6px;border:1px solid var(--border);
+               background:var(--bg-card);cursor:pointer;font-family:'Inter',sans-serif;
+               font-size:12px;color:var(--text);transition:all .15s;line-height:1.4">
+        <span style="font-weight:600;color:var(--verde);font-size:11px;display:block">${e.curso.toUpperCase()} · ${e.unidad}</span>
+        ${e.titulo.slice(0,55)}${e.titulo.length>55?'…':''}
+      </button>
+    `).join('');
+  }
+  renderEjercicio(0);
+  buscarGlosario();
+});
+</script>
+
